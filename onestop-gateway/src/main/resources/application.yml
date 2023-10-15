@@ -1,0 +1,47 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: onestop-app-restaurant
+          uri: lb://ONESTOP-APP
+          predicates:
+            - Path=/restaurant/**
+          filters:
+            - AuthenticationFilter
+        - id: onestop-app-app
+          uri: lb://ONESTOP-APP
+          predicates:
+            - Path=/app/**
+          filters:
+            - AuthenticationFilter
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: 
+              -  "http://localhost:4200" # Update this with your Angular project URL
+              -  "http://localhost:4200/login"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+            maxAge: 3600
+
+  application:
+    name: ONESTOP-GATEWAY
+
+server:
+  servlet:
+    context-path: /employee-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
