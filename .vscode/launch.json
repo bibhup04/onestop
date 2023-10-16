@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "OnestopBillingApplication",
+            "request": "launch",
+            "mainClass": "com.service.onestopbilling.OnestopBillingApplication",
+            "projectName": "onestop-billing"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-OnestopServiceRegistryApplication<onestop-service-registry>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

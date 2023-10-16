@@ -1,8 +1,10 @@
 package com.service.onestopapp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.aspectj.weaver.NameMangler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +42,10 @@ public class MemberService {
     }
 
     public Member checkAndCreateMemberForFamily(UserDTO userDTO, Family family) {
-        Optional<Member> existingMember = memberRepository.findByFamily(family);
-        if (existingMember.isPresent()) {
-            return existingMember.get();
+        List<Member> existingMember = memberRepository.findByFamily(family);
+        
+        if (existingMember.size()>0) {
+            return existingMember.get(0);
         } else {
             Member newMember = new Member();
             newMember.setName(userDTO.getName());
@@ -62,4 +65,19 @@ public class MemberService {
             System.out.println("inside member class with " + nMember.getName());
         }
     }
+
+    public NewMemberDTO getMember(Family family) {
+        List<Member> members = memberRepository.findByFamily(family);
+        NewMemberDTO newMemberDTO = new NewMemberDTO();
+        List<NameAndPhone> nameAndPhoneList = new ArrayList<>();
+    
+        for (Member member : members) {
+            NameAndPhone nameAndPhone = new NameAndPhone(member.getName(), member.getPhoneNo());
+            nameAndPhoneList.add(nameAndPhone);
+        }
+    
+        newMemberDTO.setMembers(nameAndPhoneList);
+        return newMemberDTO;
+    }
+    
 }

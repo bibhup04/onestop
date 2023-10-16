@@ -5,6 +5,10 @@ spring:
         - id: onestop-app-restaurant
           uri: lb://ONESTOP-APP
           predicates:
+            - Path=/app/home
+        - id: onestop-app-restaurant
+          uri: lb://ONESTOP-APP
+          predicates:
             - Path=/restaurant/**
           filters:
             - AuthenticationFilter
@@ -22,7 +26,7 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins: 
-              -  "http://localhost:4200" # Update this with your Angular project URL
+              -  "http://localhost:4200" 
               -  "http://localhost:4200/login"
             allowedMethods:
               - GET

@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
  
 
-@Configuration
+ @Configuration
 
 public class CorsConfig implements CorsConfigurationSource {
 

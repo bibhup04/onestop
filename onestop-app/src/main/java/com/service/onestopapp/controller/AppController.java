@@ -34,7 +34,7 @@ import io.jsonwebtoken.Jwts;
 
 @RestController
 @RequestMapping("/app")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class AppController {
 
     private JwtUtil jwtUtil;
@@ -67,7 +67,6 @@ public class AppController {
     @GetMapping("/user")
     public ResponseEntity<UserDTO> createFamilyDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);
-        Long userId = userDTO.getId();
         Family family = familyService.checkAndCreateFamilyForUser(userDTO);
         return new ResponseEntity<>( userDTO, HttpStatus.OK);
     }
@@ -91,6 +90,13 @@ public class AppController {
         return new ResponseEntity<>( "Family members added" + newMemberDTO.getMembers(), HttpStatus.OK);
     }
 
+    @GetMapping("/getMember")
+    public ResponseEntity<NewMemberDTO> getAllMember(@RequestHeader("Authorization") String token){
+        UserDTO userDTO = userService.getUserDetails(token);
+        Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
+        NewMemberDTO newMemberDTO = memberService.getMember(family);
+        return new ResponseEntity<>( newMemberDTO, HttpStatus.OK);
+    }
 
 
 

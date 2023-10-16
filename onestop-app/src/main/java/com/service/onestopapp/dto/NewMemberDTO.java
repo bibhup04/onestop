@@ -7,4 +7,8 @@ import lombok.Data;
 @Data
 public class NewMemberDTO {
     private List<NameAndPhone> members;
+
+    public void addMembers(List<NameAndPhone> newMembers) {
+        this.members.addAll(newMembers);
+    }
 }
