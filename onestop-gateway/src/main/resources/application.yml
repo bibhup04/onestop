@@ -2,22 +2,30 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: onestop-app-restaurant
+        - id: onestop=billing-app
+          uri: lb://ONESTOP-BILLING
+          predicates:
+           - Path=/subscribe/plan
+
+        - id: onestop-app-app
           uri: lb://ONESTOP-APP
           predicates:
             - Path=/app/home
+
         - id: onestop-app-restaurant
           uri: lb://ONESTOP-APP
           predicates:
             - Path=/restaurant/**
           filters:
             - AuthenticationFilter
+
         - id: onestop-app-app
           uri: lb://ONESTOP-APP
           predicates:
             - Path=/app/**
           filters:
             - AuthenticationFilter
+
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
@@ -41,9 +49,9 @@ spring:
   application:
     name: ONESTOP-GATEWAY
 
-server:
-  servlet:
-    context-path: /employee-service
+# server:
+#   servlet:
+#     context-path: /employee-service
 
 eureka:
   client:

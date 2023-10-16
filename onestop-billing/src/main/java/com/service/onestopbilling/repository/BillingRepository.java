@@ -1,0 +1,11 @@
+package com.service.onestopbilling.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.service.onestopbilling.entity.Billing;
+
+@Repository
+public interface BillingRepository extends JpaRepository<Billing, Long> {
+    // Add custom query methods if needed
+}
