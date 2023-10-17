@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.service.onestopapp.dto.NameAndPhone;
 import com.service.onestopapp.dto.NewMemberDTO;
 import com.service.onestopapp.dto.PlanDTO;
+import com.service.onestopapp.dto.PlanIdDTO;
+import com.service.onestopapp.dto.SubscribeDTO;
 import com.service.onestopapp.dto.UserDTO;
 import com.service.onestopapp.entity.Family;
 import com.service.onestopapp.entity.Plan;
 import com.service.onestopapp.service.FamilyService;
 import com.service.onestopapp.service.MemberService;
 import com.service.onestopapp.service.PlanService;
+import com.service.onestopapp.service.SubscribePlanService;
 import com.service.onestopapp.service.UserService;
 import com.service.onestopapp.util.JwtUtil;
 
@@ -43,21 +46,32 @@ public class AppController {
     private final UserService userService;
     private final FamilyService familyService;
     private final MemberService memberService;
+    private final SubscribePlanService subscribePlanService;
 
     @Autowired
-    public AppController(PlanService planService, JwtUtil jwtUtil, UserService userService, FamilyService familyService, MemberService memberService) {
+    public AppController(PlanService planService, JwtUtil jwtUtil, UserService userService, FamilyService familyService, MemberService memberService, SubscribePlanService subscribePlanService) {
         this.planService = planService;
         this.jwtUtil = jwtUtil;
         this.userService = userService;
         this.familyService = familyService;
         this.memberService = memberService;
+        this.subscribePlanService = subscribePlanService;
     }
 
 
-    // @GetMapping("/home")
-    // public List<Plan> getPlans() {
-    //     return planService.getAllPlans();
-    // }
+    @PostMapping("/plan/buy")
+    public ResponseEntity<String> buyPlan(@RequestHeader("Authorization") String token,@RequestBody PlanIdDTO planIdDTO){
+        
+        UserDTO userDTO = userService.getUserDetails(token);
+        Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
+        if(planService.getMemberCountByPlanId(planIdDTO.getPlanId())< memberService.getMemberCountByFamilyId(family)){
+            return new ResponseEntity<>("Number of members is greater than the members count of plan", HttpStatus.BAD_REQUEST);
+        }
+        subscribePlanService.subscribePlan(planIdDTO.getPlanId(), userDTO, family);
+        
+        
+        return new ResponseEntity<>( "plan buyed", HttpStatus.OK);
+    }
 
     @GetMapping("/home")
     public List<PlanDTO> getPlans() {
@@ -70,6 +84,7 @@ public class AppController {
         Family family = familyService.checkAndCreateFamilyForUser(userDTO);
         return new ResponseEntity<>( userDTO, HttpStatus.OK);
     }
+
 
     @PostMapping("/addMember")
     public ResponseEntity<String> addFamilyMember(@RequestHeader("Authorization") String token,@RequestBody NewMemberDTO newMemberDTO){

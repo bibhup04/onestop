@@ -79,5 +79,10 @@ public class MemberService {
         newMemberDTO.setMembers(nameAndPhoneList);
         return newMemberDTO;
     }
+
+    public int getMemberCountByFamilyId(Family family) {
+        List<Member> members = memberRepository.findByFamily(family);
+        return members.size();
+    }
     
 }

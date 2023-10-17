@@ -42,7 +42,7 @@ public class BillingService {
         List<Subscription> subscriptions = subscriptionService.getActiveSubscriptions();
         for(Subscription sub : subscriptions){
             Billing billing = new Billing();
-            billing.setAmount(450);
+            billing.setAmount(sub.getFinalPrice());
             billing.setSubscriptionId(sub.getSubscriptionId());
             billing.setPaymentStatus("Pending");
             billing.setUserId(sub.getUserId());

@@ -34,6 +34,7 @@ public class SubscriptionService {
         subscription.setUserId(subscriptionDto.getUserId());
         subscription.setFamilyId(subscriptionDto.getFamilyId());
         subscription.setPlanId(subscriptionDto.getPlanId());
+        subscription.setFinalPrice(subscriptionDto.getFinalPrice());
         subscription.setEndDate(endDate);
         subscription.setActive("ACTIVE");
         subscription.setAutoRenewal(true);

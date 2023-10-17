@@ -60,4 +60,26 @@ public class PlanService {
     public void deletePlansById(Long id) {
         plansRepository.deleteById(id);
     }
+
+    public Double getFinalPriceByPlanId(Long planId) {
+        Optional<Plan> optionalPlan = plansRepository.findById(planId);
+
+        if (optionalPlan.isPresent()) {
+            Plan plan = optionalPlan.get();
+            return plan.getFinalPrice();
+        } else {
+            throw new IllegalArgumentException("Plan not found for the given planId: " + planId);
+        }
+    }
+
+    public Integer getMemberCountByPlanId(Long planId) {
+        Optional<Plan> optionalPlan = plansRepository.findById(planId);
+
+        if (optionalPlan.isPresent()) {
+            Plan plan = optionalPlan.get();
+            return plan.getMemberCount();
+        } else {
+            throw new IllegalArgumentException("Plan not found for the given planId: " + planId);
+        }
+    }
 }

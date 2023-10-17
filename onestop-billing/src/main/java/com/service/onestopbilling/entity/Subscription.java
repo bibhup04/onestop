@@ -26,7 +26,7 @@ public class Subscription {
     private Long familyId;
     private long userId; 
     private long planId; 
-
+    private Double finalPrice;
     @CreationTimestamp
     private Date createdAt;
     

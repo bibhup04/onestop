@@ -1,4 +1,4 @@
-package com.service.onestopbilling.dto;
+package com.service.onestopapp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
