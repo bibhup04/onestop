@@ -3,6 +3,7 @@ package com.service.onestopbilling.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.service.onestopbilling.dto.SubscribeDTO;
 import com.service.onestopbilling.entity.CustomDateHandler;
+import com.service.onestopbilling.entity.Subscription;
 import com.service.onestopbilling.service.BillingService;
 import com.service.onestopbilling.service.SubscriptionService;
 
@@ -44,6 +46,14 @@ public class SubscribeController {
         return new ResponseEntity<>( "plan subscribed successfully", HttpStatus.OK);
     }
    
+    @GetMapping("/all")
+    public ResponseEntity<List<Subscription>> getAllSubscriptions() {
+        List<Subscription> subscriptions = subscriptionService.getAllSubscriptions();
+        if (subscriptions.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(subscriptions, HttpStatus.OK);
+    }
 
     
     @GetMapping("/hello")
@@ -60,5 +70,6 @@ public class SubscribeController {
         subscriptionService.renewSubscription(customDateHandler.getEndDate());
         System.out.println("bill generated and end date updated");
     }
+    
     
 }
