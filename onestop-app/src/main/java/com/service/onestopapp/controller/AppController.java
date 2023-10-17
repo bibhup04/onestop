@@ -68,8 +68,6 @@ public class AppController {
             return new ResponseEntity<>("Number of members is greater than the members count of plan", HttpStatus.BAD_REQUEST);
         }
         subscribePlanService.subscribePlan(planIdDTO.getPlanId(), userDTO, family);
-        
-        
         return new ResponseEntity<>( "plan buyed", HttpStatus.OK);
     }
 

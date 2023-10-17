@@ -2,6 +2,11 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: ott-stub
+          uri: lb://OTT-STUB
+          predicates:
+          - Path=/ott/**
+          
         - id: onestop=billing-app
           uri: lb://ONESTOP-BILLING
           predicates:

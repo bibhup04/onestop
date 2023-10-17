@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "OttStubsApplication",
+            "request": "launch",
+            "mainClass": "com.service.ottstubs.OttStubsApplication"
+        },
+        {
+            "type": "java",
             "name": "OnestopBillingApplication",
             "request": "launch",
             "mainClass": "com.service.onestopbilling.OnestopBillingApplication",
@@ -46,6 +52,16 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.service.onestopgateway.OnestopGatewayApplication",
             "projectName": "onestop-gateway",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OttStubsApplication<ott-stubs>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.service.ottstubs.OttStubsApplication",
+            "projectName": "ott-stubs",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
