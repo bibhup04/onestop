@@ -25,9 +25,9 @@ public class SubscriptionService {
         return subscriptionRepository.findAll();
     }
 
-    public Optional<Subscription> getSubscriptionById(Long id) {
-        return subscriptionRepository.findById(id);
-    }
+    // public Optional<Subscription> getSubscriptionById(Long id) {
+    //     return subscriptionRepository.findById(id);
+    // }
 
     public Subscription saveSubscription(Date endDate, SubscribeDTO subscriptionDto) {
         Subscription subscription = new Subscription();
@@ -41,9 +41,9 @@ public class SubscriptionService {
         return subscriptionRepository.save(subscription);
     }
 
-    public List<Subscription> getActiveSubscriptionsWithAutoRenewal() {
-        return subscriptionRepository.findByActiveAndAutoRenewal("ACTIVE", true);
-    }
+    // public List<Subscription> getActiveSubscriptionsWithAutoRenewal() {
+    //     return subscriptionRepository.findByActiveAndAutoRenewal("ACTIVE", true);
+    // }
 
     public List<Subscription> getActiveSubscriptions() {
         return subscriptionRepository.findByActive("ACTIVE");

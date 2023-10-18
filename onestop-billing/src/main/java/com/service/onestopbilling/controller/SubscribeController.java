@@ -29,12 +29,13 @@ public class SubscribeController {
    CustomDateHandler customDateHandler = new CustomDateHandler();
 
    private final SubscriptionService subscriptionService;
-   private final BillingService billingService;
+
+   @Autowired
+   private BillingService billingService;
 
     @Autowired
-    public SubscribeController(SubscriptionService subscriptionService, BillingService billingService) {
+    public SubscribeController(SubscriptionService subscriptionService) {
         this.subscriptionService = subscriptionService;
-        this.billingService = billingService;
     }
 
 
@@ -48,19 +49,12 @@ public class SubscribeController {
    
     @GetMapping("/all")
     public ResponseEntity<List<Subscription>> getAllSubscriptions() {
-        List<Subscription> subscriptions = subscriptionService.getAllSubscriptions();
-        if (subscriptions.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(subscriptions, HttpStatus.OK);
-    }
-
-    
-    @GetMapping("/hello")
-    public String helloWorld() {
-        
-        System.out.println("date is - " + customDateHandler.getEndDate());
-        return "Hello World";
+        // List<Subscription> subscriptions = subscriptionService.getAllSubscriptions();
+        // if (subscriptions.isEmpty()) {
+        //     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        // }
+        // return new ResponseEntity<>(subscriptions, HttpStatus.OK);
+        return ResponseEntity.ok().body(subscriptionService.getAllSubscriptions());
     }
 
     //@Scheduled(fixedRate = 10000)
