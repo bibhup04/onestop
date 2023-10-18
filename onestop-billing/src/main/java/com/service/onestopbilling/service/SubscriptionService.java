@@ -57,8 +57,4 @@ public class SubscriptionService {
         }
 
     }
-
-    public void deleteSubscription(Long id) {
-        subscriptionRepository.deleteById(id);
-    }
 }

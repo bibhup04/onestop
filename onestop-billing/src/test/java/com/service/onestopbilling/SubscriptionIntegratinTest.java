@@ -4,8 +4,11 @@ package com.service.onestopbilling;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.onestopbilling.dto.SubscribeDTO;
+import com.service.onestopbilling.entity.Billing;
 import com.service.onestopbilling.entity.Subscription;
+import com.service.onestopbilling.repository.BillingRepository;
 import com.service.onestopbilling.repository.SubscriptionRepository;
+import com.service.onestopbilling.service.BillingService;
 import com.service.onestopbilling.service.SubscriptionService;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -40,6 +43,12 @@ public class SubscriptionIntegratinTest {
     @Autowired
     private SubscriptionService subscriptionService;
 
+    @Autowired
+    private BillingRepository billingRepository;
+
+    @Autowired
+    private BillingService billingService;
+
     private static HttpHeaders headers;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -70,6 +79,18 @@ public class SubscriptionIntegratinTest {
         assertEquals(subscription.size(), subscriptionRepository.findAll().size());
     }
 
+    @Test
+    public void testGenerateNewBill(){
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+        ResponseEntity<List<Billing>> response = restTemplate.exchange(
+            createURLWithPort("/bill"),HttpMethod.GET, entity, new ParameterizedTypeReference<List<Billing>>(){});
+        List<Billing> billings = response.getBody();
+        assert billings != null;
+        assertEquals(response.getStatusCode().value(),200);
+        assertEquals(billings.size(), billingService.getAllBillings().size());
+        assertEquals(billings.size(), billingRepository.findAll().size());
+     }
+
 
     @Test
     @Sql(statements = "DELETE FROM subscription WHERE family_id='45'", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -89,6 +110,7 @@ public class SubscriptionIntegratinTest {
             assertEquals(HttpStatus.OK, response.getStatusCode());
 
     }
+
 
 
     

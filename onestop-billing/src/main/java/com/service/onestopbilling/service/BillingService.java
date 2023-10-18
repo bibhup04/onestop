@@ -26,19 +26,16 @@ public class BillingService {
         return billingRepository.findAll();
     }
 
-    public Optional<Billing> getBillingById(Long id) {
-        return billingRepository.findById(id);
-    }
+    // public Optional<Billing> getBillingById(Long id) {
+    //     return billingRepository.findById(id);
+    // }
 
-    public Billing saveBilling(Billing billing) {
-        return billingRepository.save(billing);
-    }
+    // public Billing saveBilling(Billing billing) {
+    //     return billingRepository.save(billing);
+    // }
 
-    public void deleteBilling(Long id) {
-        billingRepository.deleteById(id);
-    }
 
-    public void createbills(){
+    public List<Billing> createbills(){
         List<Subscription> subscriptions = subscriptionService.getActiveSubscriptions();
         for(Subscription sub : subscriptions){
             Billing billing = new Billing();
@@ -48,5 +45,6 @@ public class BillingService {
             billing.setUserId(sub.getUserId());
             billingRepository.save(billing);
         }
+        return getAllBillings();
     }
 }

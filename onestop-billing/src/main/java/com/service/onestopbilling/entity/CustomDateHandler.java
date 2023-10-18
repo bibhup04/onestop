@@ -1,12 +1,16 @@
 package com.service.onestopbilling.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 public class CustomDateHandler {
     private Date endDate;
 

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.service.onestopbilling.dto.SubscribeDTO;
+import com.service.onestopbilling.entity.Billing;
 import com.service.onestopbilling.entity.CustomDateHandler;
 import com.service.onestopbilling.entity.Subscription;
 import com.service.onestopbilling.service.BillingService;
@@ -49,20 +51,26 @@ public class SubscribeController {
    
     @GetMapping("/all")
     public ResponseEntity<List<Subscription>> getAllSubscriptions() {
-        // List<Subscription> subscriptions = subscriptionService.getAllSubscriptions();
-        // if (subscriptions.isEmpty()) {
-        //     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        // }
-        // return new ResponseEntity<>(subscriptions, HttpStatus.OK);
         return ResponseEntity.ok().body(subscriptionService.getAllSubscriptions());
     }
+    
 
     //@Scheduled(fixedRate = 10000)
-    public void printHelloWorld() {
+    public void generateBill() {
         billingService.createbills();
         customDateHandler.increaseEndDateBy30Days();
         subscriptionService.renewSubscription(customDateHandler.getEndDate());
         System.out.println("bill generated and end date updated");
+    }
+
+    @GetMapping("/bill")
+    public ResponseEntity<List<Billing>> generateNewBill() {
+        List<Billing> bills = new ArrayList<>();
+        bills = billingService.createbills();
+        customDateHandler.increaseEndDateBy30Days();
+        subscriptionService.renewSubscription(customDateHandler.getEndDate());
+        System.out.println("bill generated and end date updated");
+        return ResponseEntity.ok().body(bills);
     }
     
     
