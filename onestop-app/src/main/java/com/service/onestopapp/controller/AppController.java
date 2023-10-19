@@ -79,7 +79,7 @@ public class AppController {
     @GetMapping("/user")
     public ResponseEntity<UserDTO> createFamilyDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);
-        Family family = familyService.checkAndCreateFamilyForUser(userDTO);
+        familyService.checkAndCreateFamilyForUser(userDTO);
         return new ResponseEntity<>( userDTO, HttpStatus.OK);
     }
 
