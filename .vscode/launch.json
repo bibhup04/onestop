@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "OnestopInvoiceApplication",
+            "request": "launch",
+            "mainClass": "com.service.onestopinvoice.OnestopInvoiceApplication"
+        },
+        {
+            "type": "java",
             "name": "OttStubsApplication",
             "request": "launch",
             "mainClass": "com.service.ottstubs.OttStubsApplication"
@@ -11,7 +17,8 @@
             "name": "OnestopBillingApplication",
             "request": "launch",
             "mainClass": "com.service.onestopbilling.OnestopBillingApplication",
-            "projectName": "onestop-billing"
+            "projectName": "onestop-billing",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=45171 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=onestop-billing"
         },
         {
             "type": "java",
@@ -43,7 +50,8 @@
             "mainClass": "com.service.onestopapp.OnestopAppApplication",
             "projectName": "onestop-app",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=38595 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=onestop-app"
         },
         {
             "type": "java",
@@ -53,7 +61,8 @@
             "mainClass": "com.service.onestopgateway.OnestopGatewayApplication",
             "projectName": "onestop-gateway",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=44761 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=onestop-gateway"
         },
         {
             "type": "java",
@@ -62,6 +71,26 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.service.ottstubs.OttStubsApplication",
             "projectName": "ott-stubs",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OnestopAuthApplication<onestop-auth>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.service.onestopauth.OnestopAuthApplication",
+            "projectName": "onestop-auth",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OnestopInvoiceApplication<onestop-invoice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.service.onestopinvoice.OnestopInvoiceApplication",
+            "projectName": "onestop-invoice",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }

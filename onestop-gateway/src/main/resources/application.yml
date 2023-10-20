@@ -2,6 +2,11 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: ott-invoice
+          uri: ib://OTT-INVOICE
+          predicates:
+          - Path=/invoice/generate
+          
         - id: ott-stub
           uri: lb://OTT-STUB
           predicates:

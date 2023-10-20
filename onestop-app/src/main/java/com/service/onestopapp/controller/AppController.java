@@ -63,6 +63,7 @@ public class AppController {
     public ResponseEntity<String> buyPlan(@RequestHeader("Authorization") String token,@RequestBody PlanIdDTO planIdDTO){
         
         UserDTO userDTO = userService.getUserDetails(token);
+        System.out.println("user name - " + userDTO.getName() + "plan Id - " + planIdDTO.getPlanId());
         Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
         if(planService.getMemberCountByPlanId(planIdDTO.getPlanId())< memberService.getMemberCountByFamilyId(family)){
             return new ResponseEntity<>("Number of members is greater than the members count of plan", HttpStatus.BAD_REQUEST);
@@ -88,7 +89,7 @@ public class AppController {
     public ResponseEntity<String> addFamilyMember(@RequestHeader("Authorization") String token,@RequestBody NewMemberDTO newMemberDTO){
         System.out.println("token isn " + token);
         UserDTO userDTO = userService.getUserDetails(token);
-        System.out.println("New Member DTO: " + newMemberDTO);
+        System.out.println("New Member DTO: " + newMemberDTO.getMembers());
 
         Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
         System.out.println("familyId is " + family.getFamilyId());

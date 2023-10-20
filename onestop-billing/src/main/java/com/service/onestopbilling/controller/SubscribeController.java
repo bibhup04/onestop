@@ -1,18 +1,14 @@
 package com.service.onestopbilling.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,10 +51,10 @@ public class SubscribeController {
     }
     
 
-    //@Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 60000)
     public void generateBill() {
         billingService.createbills();
-        customDateHandler.increaseEndDateBy30Days();
+       // customDateHandler.increaseEndDateBy30Days();
         subscriptionService.renewSubscription(customDateHandler.getEndDate());
         System.out.println("bill generated and end date updated");
     }
