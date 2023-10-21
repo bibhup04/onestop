@@ -45,13 +45,22 @@ public class InvoiceController {
         System.out.println("User Id: " + generateInvoiceDTO.getUserId());
         System.out.println("Plan Id: " + generateInvoiceDTO.getPlanId());
         System.out.println("Final Price: " + generateInvoiceDTO.getFinalPrice());
-        InvoiceDTO invoiceDTO = appService.getInvoiceDetails(generateInvoiceDTO);
-        System.out.println("\nxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
-        System.out.println("Received GenerateInvoiceDTO from app service:");
-        System.out.println("plan Desc- " + invoiceDTO.getPlanDescription());
-        System.out.println("emailId:" + invoiceDTO.getEmailId());
-        System.out.println("\nxxxxxxxxxxxxxxxxxxxxxxxxxx\n");
     }
+
+    List<InvoiceDTO> invoiceDTOs = appService.getInvoiceDetails(generateInvoiceDTOList);
+
+    if (invoiceDTOs != null) {
+        for (InvoiceDTO invoiceDTO : invoiceDTOs) {
+            System.out.println("InvoiceDTO - plan desc: " + invoiceDTO.getPlanDescription());
+            System.out.println("InvoiceDTO - name and phone: " + invoiceDTO.getNameAndPhones());
+            System.out.println("InvoiceDTO - Plan Id: " + invoiceDTO.getPlanId());
+            System.out.println("InvoiceDTO - emailId: " + invoiceDTO.getEmailId());
+            // Add any other desired fields here
+        }
+    } else {
+        System.out.println("InvoiceDTO list is null.");
+    }
+
     return new ResponseEntity<>("Invoice Generated", HttpStatus.OK);
 }
 

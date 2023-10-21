@@ -1,5 +1,6 @@
 package com.service.onestopapp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,18 +120,20 @@ public class AppController {
 
 
     @PostMapping("/invoice-details")
-    public ResponseEntity<InvoiceDTO> generateInvoice(@RequestBody GenerateInvoiceDTO generateInvoiceDTO) {
-        System.out.println("Received GenerateInvoiceDTO:");
-        System.out.println("Bill Id: " + generateInvoiceDTO.getBillId());
-        System.out.println("User Id: " + generateInvoiceDTO.getUserId());
-        System.out.println("Plan Id: " + generateInvoiceDTO.getPlanId());
-        System.out.println("Final Price: " + generateInvoiceDTO.getFinalPrice());
+    public ResponseEntity<List<InvoiceDTO>> generateInvoice(@RequestBody List<GenerateInvoiceDTO> generateInvoiceDTOs) {
+        List<InvoiceDTO> invoiceDTOs = new ArrayList<>();
+        for (GenerateInvoiceDTO generateInvoiceDTO : generateInvoiceDTOs) {
+            System.out.println("Received GenerateInvoiceDTO:");
+            System.out.println("Bill Id: " + generateInvoiceDTO.getBillId());
+            System.out.println("User Id: " + generateInvoiceDTO.getUserId());
+            System.out.println("Plan Id: " + generateInvoiceDTO.getPlanId());
+            System.out.println("Final Price: " + generateInvoiceDTO.getFinalPrice());
 
-        InvoiceDTO invoiceDTO = invoiceService.generateData(generateInvoiceDTO);
-        
-        return new ResponseEntity<>( invoiceDTO , HttpStatus.OK);
+            InvoiceDTO invoiceDTO = invoiceService.generateData(generateInvoiceDTO);
+            invoiceDTOs.add(invoiceDTO);
+        }
+        return new ResponseEntity<>(invoiceDTOs, HttpStatus.OK);
     }
-
 
 
     @GetMapping("/home/user")
