@@ -56,7 +56,7 @@ public class SubscribeController {
     }
     
 
-   // @Scheduled(fixedRate = 60000)
+   // @Scheduled(fixedRate = 10000)
     public void generateBill() {
         billingService.createbills();
        // customDateHandler.increaseEndDateBy30Days();
@@ -75,7 +75,7 @@ public class SubscribeController {
     }
 
     @PostMapping("/create-invoice")
-    public ResponseEntity<String> createInvoice(@RequestBody GenerateInvoiceDTO generateInvoiceDTO) {
+    public ResponseEntity<String> createInvoice(@RequestBody List<GenerateInvoiceDTO> generateInvoiceDTO) {
         System.out.println("inside billing controller.");
         return invoiceService.createInvoice(generateInvoiceDTO);
         //return new ResponseEntity<>( "its working", HttpStatus.OK);

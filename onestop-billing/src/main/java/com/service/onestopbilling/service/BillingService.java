@@ -17,11 +17,13 @@ public class BillingService {
 
     private final BillingRepository billingRepository;
     private final SubscriptionService subscriptionService;
+    private final InvoiceService invoiceService;
 
     @Autowired
-    public BillingService(BillingRepository billingRepository, SubscriptionService subscriptionService) {
+    public BillingService(InvoiceService invoiceService, BillingRepository billingRepository, SubscriptionService subscriptionService) {
         this.billingRepository = billingRepository;
         this.subscriptionService = subscriptionService;
+        this.invoiceService = invoiceService;
     }
 
     public List<Billing> getAllBillings() {
@@ -56,7 +58,7 @@ public class BillingService {
             
             generateInvoiceDTOs.add(generateInvoiceDTO);
         }
-    
+        invoiceService.createInvoice(generateInvoiceDTOs);
         return getAllBillings();
     }
 }

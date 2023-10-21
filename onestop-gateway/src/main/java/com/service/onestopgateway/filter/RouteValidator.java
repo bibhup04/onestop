@@ -15,6 +15,7 @@ public class RouteValidator {
             "/eureka",
             "/auth/userId",
             "/app/home",
+            "/app/invoice-details",
             "/subscribe/plan",
             "/subscribe/create-invoice",
             "/invoice/generate-invoice"  

@@ -1,5 +1,7 @@
 package com.service.onestopbilling.feignclint;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,5 +13,5 @@ import com.service.onestopbilling.dto.GenerateInvoiceDTO;
 public interface InvoiceServiceClient {
 
     @PostMapping("/generate-invoice")
-    ResponseEntity<String> generateInvoice(@RequestBody GenerateInvoiceDTO generateInvoiceDTO);
+    ResponseEntity<String> generateInvoice(@RequestBody List<GenerateInvoiceDTO> generateInvoiceDTOList);
 }

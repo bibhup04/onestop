@@ -1,5 +1,7 @@
 package com.service.onestopbilling.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,8 @@ public class InvoiceService {
         this.invoiceServiceClient = invoiceServiceClient;
     }
 
-    public ResponseEntity<String> createInvoice(GenerateInvoiceDTO generateInvoiceDTO) {
+    public ResponseEntity<String> createInvoice(List<GenerateInvoiceDTO> generateInvoiceDTOList) {
         System.out.println("inside create invoice service.");
-        return invoiceServiceClient.generateInvoice(generateInvoiceDTO);
+        return invoiceServiceClient.generateInvoice(generateInvoiceDTOList);
     }
 }

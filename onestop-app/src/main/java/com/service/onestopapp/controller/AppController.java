@@ -3,27 +3,30 @@ package com.service.onestopapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
+import com.service.onestopapp.dto.GenerateInvoiceDTO;
+import com.service.onestopapp.dto.InvoiceDTO;
 import com.service.onestopapp.dto.NameAndPhone;
 import com.service.onestopapp.dto.NewMemberDTO;
 import com.service.onestopapp.dto.PlanDTO;
 import com.service.onestopapp.dto.PlanIdDTO;
-import com.service.onestopapp.dto.SubscribeDTO;
+
 import com.service.onestopapp.dto.UserDTO;
 import com.service.onestopapp.entity.Family;
-import com.service.onestopapp.entity.Plan;
+
 import com.service.onestopapp.service.FamilyService;
+import com.service.onestopapp.service.InvoiceService;
 import com.service.onestopapp.service.MemberService;
 import com.service.onestopapp.service.PlanService;
 import com.service.onestopapp.service.SubscribePlanService;
@@ -32,8 +35,7 @@ import com.service.onestopapp.util.JwtUtil;
 
 
 import org.springframework.web.bind.annotation.RequestHeader;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+
 
 @RestController
 @RequestMapping("/app")
@@ -47,6 +49,9 @@ public class AppController {
     private final FamilyService familyService;
     private final MemberService memberService;
     private final SubscribePlanService subscribePlanService;
+    
+    @Autowired
+    private InvoiceService invoiceService;
 
     @Autowired
     public AppController(PlanService planService, JwtUtil jwtUtil, UserService userService, FamilyService familyService, MemberService memberService, SubscribePlanService subscribePlanService) {
@@ -113,22 +118,35 @@ public class AppController {
     }
 
 
+    @PostMapping("/invoice-details")
+    public ResponseEntity<InvoiceDTO> generateInvoice(@RequestBody GenerateInvoiceDTO generateInvoiceDTO) {
+        System.out.println("Received GenerateInvoiceDTO:");
+        System.out.println("Bill Id: " + generateInvoiceDTO.getBillId());
+        System.out.println("User Id: " + generateInvoiceDTO.getUserId());
+        System.out.println("Plan Id: " + generateInvoiceDTO.getPlanId());
+        System.out.println("Final Price: " + generateInvoiceDTO.getFinalPrice());
+
+        InvoiceDTO invoiceDTO = invoiceService.generateData(generateInvoiceDTO);
+        
+        return new ResponseEntity<>( invoiceDTO , HttpStatus.OK);
+    }
+
 
 
     @GetMapping("/home/user")
     public ResponseEntity<String> home(@RequestHeader("Authorization") String token) {
-    if (token != null && token.startsWith("Bearer ")) {
-        String jwtToken = token.substring(7); // Remove "Bearer " from the token string
-        System.out.println(jwtToken);
-        jwtUtil.decodeToken(jwtToken);
-        String name = ""; // Here, you should extract the name from the decoded token.
-        System.out.println("name is - " + name);
-        return new ResponseEntity<>("You are in home, " + name, HttpStatus.OK);
-    } else {
-        // Handle the case when the token is not in the expected format
-        return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
+        if (token != null && token.startsWith("Bearer ")) {
+            String jwtToken = token.substring(7); // Remove "Bearer " from the token string
+            System.out.println(jwtToken);
+            jwtUtil.decodeToken(jwtToken);
+            String name = ""; // Here, you should extract the name from the decoded token.
+            System.out.println("name is - " + name);
+            return new ResponseEntity<>("You are in home, " + name, HttpStatus.OK);
+        } else {
+            // Handle the case when the token is not in the expected format
+            return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
+        }
     }
-}
 
 
     

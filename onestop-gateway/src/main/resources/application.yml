@@ -27,12 +27,11 @@ spring:
           predicates:
             - Path=/app/home
 
-        - id: onestop-app-restaurant
+        - id: onestop-app-app
           uri: lb://ONESTOP-APP
           predicates:
-            - Path=/restaurant/**
-          filters:
-            - AuthenticationFilter
+            - Path=/app/invoice-details
+
 
         - id: onestop-app-app
           uri: lb://ONESTOP-APP

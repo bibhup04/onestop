@@ -49,9 +49,15 @@ public class FamilyService {
         } else {
             Family newFamily = new Family();
             newFamily.setUserId(userDTO.getId());
+            newFamily.setEmailId(userDTO.getEmail());
             Family createdFamily = familyRepository.save(newFamily);
             memberService.checkAndCreateMemberForFamily(userDTO, createdFamily);
             return createdFamily;
         }
+    }
+
+    public String getEmailIdByUserId(Long userId) {
+        Optional<Family> familyOptional = familyRepository.findByUserId(userId);
+        return familyOptional.map(Family::getEmailId).orElse(null);
     }
 }
