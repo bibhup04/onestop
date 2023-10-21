@@ -15,7 +15,10 @@ public class RouteValidator {
             "/eureka",
             "/auth/userId",
             "/app/home",
-            "/subscribe/plan"
+            "/subscribe/plan",
+            "/subscribe/create-invoice",
+            "/invoice/generate-invoice"  
+
     );  
 
     public Predicate<ServerHttpRequest> isSecured =

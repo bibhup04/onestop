@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.service.onestopbilling.dto.GenerateInvoiceDTO;
 import com.service.onestopbilling.dto.SubscribeDTO;
 import com.service.onestopbilling.entity.Billing;
 import com.service.onestopbilling.entity.CustomDateHandler;
 import com.service.onestopbilling.entity.Subscription;
 import com.service.onestopbilling.service.BillingService;
+import com.service.onestopbilling.service.InvoiceService;
 import com.service.onestopbilling.service.SubscriptionService;
 
 @RestController
@@ -30,6 +32,9 @@ public class SubscribeController {
 
    @Autowired
    private BillingService billingService;
+
+   @Autowired 
+   private InvoiceService invoiceService;
 
     @Autowired
     public SubscribeController(SubscriptionService subscriptionService) {
@@ -51,7 +56,7 @@ public class SubscribeController {
     }
     
 
-    @Scheduled(fixedRate = 60000)
+   // @Scheduled(fixedRate = 60000)
     public void generateBill() {
         billingService.createbills();
        // customDateHandler.increaseEndDateBy30Days();
@@ -67,6 +72,13 @@ public class SubscribeController {
         subscriptionService.renewSubscription(customDateHandler.getEndDate());
         System.out.println("bill generated and end date updated");
         return ResponseEntity.ok().body(bills);
+    }
+
+    @PostMapping("/create-invoice")
+    public ResponseEntity<String> createInvoice(@RequestBody GenerateInvoiceDTO generateInvoiceDTO) {
+        System.out.println("inside billing controller.");
+        return invoiceService.createInvoice(generateInvoiceDTO);
+        //return new ResponseEntity<>( "its working", HttpStatus.OK);
     }
     
     

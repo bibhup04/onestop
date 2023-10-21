@@ -5,7 +5,7 @@ spring:
         - id: ott-invoice
           uri: ib://OTT-INVOICE
           predicates:
-          - Path=/invoice/generate
+          - Path=/invoice/generate-invoice
           
         - id: ott-stub
           uri: lb://OTT-STUB
@@ -16,6 +16,11 @@ spring:
           uri: lb://ONESTOP-BILLING
           predicates:
            - Path=/subscribe/plan
+        
+        - id: onestop=billing-app
+          uri: lb://ONESTOP-BILLING
+          predicates:
+           - Path=/subscribe/create-invoice
 
         - id: onestop-app-app
           uri: lb://ONESTOP-APP
