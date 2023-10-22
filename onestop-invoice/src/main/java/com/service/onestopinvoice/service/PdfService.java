@@ -21,7 +21,7 @@ public class PdfService {
 
   PDDocument invc;
 
-  public void WriteInvoice(InvoiceDTO invoiceDTO, double finalPrice) {
+  public String WriteInvoice(InvoiceDTO invoiceDTO, GenerateInvoiceDTO generateInvoiceDTO) {
     PDDocument invc = new PDDocument();
     PDPage mypage = new PDPage();
     invc.addPage(mypage);
@@ -32,10 +32,10 @@ public class PdfService {
 
       // Create a light grey-colored box
       float boxWidth = mypage.getMediaBox().getWidth(); // full page width
-      float boxHeight = 180; // fixed height
-      float boxStartX = 0; // start from the extreme left
-      float boxStartY = mypage.getMediaBox().getHeight() - boxHeight; // start from the top
-      Color lightGrey = new Color(192, 192, 192); // define light grey color
+      float boxHeight = 180; 
+      float boxStartX = 0; 
+      float boxStartY = mypage.getMediaBox().getHeight() - boxHeight; 
+      Color lightGrey = new Color(192, 192, 192); 
 
       cs.setNonStrokingColor(lightGrey); // Set the fill color to light grey
       cs.addRect(boxStartX, boxStartY, boxWidth, boxHeight);
@@ -43,31 +43,31 @@ public class PdfService {
 
       // Invoice
       cs.beginText();
-      cs.setFont(PDType1Font.HELVETICA_BOLD, 36); // Change font and size for big letters
-      cs.newLineAtOffset(40, boxStartY + 20); // Adjust the position as needed
-      cs.setNonStrokingColor(Color.BLACK); // Set the text color to black
-      cs.showText("INVOICE"); // Write "INVOICE" in big letters
+      cs.setFont(PDType1Font.HELVETICA_BOLD, 36); 
+      cs.newLineAtOffset(40, boxStartY + 20); 
+      cs.setNonStrokingColor(Color.BLACK); 
+      cs.showText("INVOICE"); 
       cs.endText();
 
       // ONESTOP in designed font
       cs.beginText();
-      cs.setFont(PDType1Font.TIMES_BOLD_ITALIC, 56); // Choose a suitable designed font and size
-      String onestopText = "ONESTOP"; // Replace with the desired designed text
+      cs.setFont(PDType1Font.TIMES_BOLD_ITALIC, 56); 
+      String onestopText = "ONESTOP"; 
       float stringWidth = (float) PDType1Font.TIMES_BOLD_ITALIC.getStringWidth(onestopText) / 1000 * 36;
       float startX = boxWidth - stringWidth - 140; // Position it to the top right corner
       cs.newLineAtOffset(startX, boxStartY + 75);
-      cs.setNonStrokingColor(Color.BLACK); // Set the text color to black
-      cs.showText(onestopText); // Write "ONESTOP" in designed font
+      cs.setNonStrokingColor(Color.BLACK); 
+      cs.showText(onestopText); 
       cs.endText();
 
       // ... Existing code
 
       // Display Name and Phone Numbers
       List<NameAndPhone> nameAndPhones = invoiceDTO.getNameAndPhones();
-      float startNameY = boxStartY - 20; // Position the text below the box
-      float startNameX = 40; // Adjust the start position as needed
+      float startNameY = boxStartY - 20; 
+      float startNameX = 40; 
 
-      // Print the email ID above the names and phone numbers
+      // Print the email ID 
       cs.beginText();
       cs.setFont(PDType1Font.TIMES_ROMAN, 18);
       cs.newLineAtOffset(startNameX, startNameY);
@@ -103,8 +103,8 @@ public class PdfService {
 
 
       // Draw table rows
-      float tableTopY = 400; // adjust the Y-coordinate according to your
-      // requirement
+      float tableTopY = 400; 
+   
 
       // Draw table headers
       cs.beginText();
@@ -118,8 +118,8 @@ public class PdfService {
       cs.endText();
 
       // // Draw table rows
-      float rowY = tableTopY - 20; // adjust the row height and Y-coordinate
-      // according to your requirement
+      float rowY = tableTopY - 20; 
+      
 
       cs.beginText();
       cs.setFont(PDType1Font.TIMES_ROMAN, 14);
@@ -134,19 +134,15 @@ public class PdfService {
           cs.newLineAtOffset(300, rowY);
           cs.showText(ott.getOttName());
           cs.endText();
-          rowY -= 20; // Adjust the rowY value for the next line
+          rowY -= 20; 
       }
 
 
       // Draw the price
-      rowY += 20; // adjust the row height according to your requirement
+      rowY += 20; 
 
       cs.beginText();
       cs.setFont(PDType1Font.TIMES_ROMAN, 14);
-      // cs.newLineAtOffset(80, rowY);
-      // cs.showText("Total");
-      // cs.newLineAtOffset(150, 0);
-      // cs.showText("");
       cs.newLineAtOffset(450, rowY);
       cs.showText(invoiceDTO.getPrice().toString());
       cs.endText();
@@ -172,14 +168,14 @@ public class PdfService {
       cs.setFont(PDType1Font.TIMES_ROMAN, 14);
       cs.newLineAtOffset(450, rowY - 40);
       
-      cs.showText(Double.toString(invoiceDTO.getPrice() - finalPrice ));
+      cs.showText(Double.toString(invoiceDTO.getPrice() - generateInvoiceDTO.getFinalPrice() ));
       cs.endText();
 
       // Print the discount amount
       cs.beginText();
       cs.setFont(PDType1Font.TIMES_ROMAN, 14);
       cs.newLineAtOffset(450, rowY - 40);
-      double discount = invoiceDTO.getPrice() - finalPrice;
+      double discount = invoiceDTO.getPrice() -  generateInvoiceDTO.getFinalPrice();
       cs.showText(Double.toString(discount));
       cs.endText();
 
@@ -187,23 +183,24 @@ public class PdfService {
       cs.beginText();
       cs.setFont(PDType1Font.TIMES_ROMAN, 14);
       cs.newLineAtOffset(450, rowY - 60);
-      cs.showText(Double.toString(finalPrice));
+      cs.showText(Double.toString( generateInvoiceDTO.getFinalPrice()));
       cs.endText();
-
-
-
-
-
 
 
       // Close the content stream
       cs.close();
-      String pdfFilePath = "/home/bibhu04/Microservices/onestop/onestop-invoice/invoice/customer_details.pdf";
+      String currentDirectory = System.getProperty("user.dir");
+      String pdfFilePath = currentDirectory + "/invoice/" + invoiceDTO.getNameAndPhones().get(0).getName() + "_" + generateInvoiceDTO.getBillId() + ".pdf";
+
+
+     // String pdfFilePath = "/home/bibhu04/Microservices/onestop/onestop-invoice/invoice/customer_details.pdf";
       invc.save(pdfFilePath);
+      return pdfFilePath;
 
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return "";
   }
 
 }

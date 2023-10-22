@@ -56,7 +56,7 @@ public class SubscribeController {
     }
     
 
-   // @Scheduled(fixedRate = 10000)
+    //@Scheduled(fixedRate = 10000)
     public void generateBill() {
         billingService.createbills();
        // customDateHandler.increaseEndDateBy30Days();

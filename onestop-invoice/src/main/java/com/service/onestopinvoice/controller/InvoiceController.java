@@ -24,7 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.service.onestopinvoice.DTO.GenerateInvoiceDTO;
 import com.service.onestopinvoice.DTO.InvoiceDTO;
 import com.service.onestopinvoice.service.AppService;
+import com.service.onestopinvoice.service.EmailSenderService;
+import com.service.onestopinvoice.service.InvoiceService;
 import com.service.onestopinvoice.service.PdfService;
+
+import jakarta.mail.MessagingException;
 
 @RestController
 @RequestMapping("/invoice")
@@ -35,6 +39,12 @@ public class InvoiceController {
 
     @Autowired
     private AppService appService;
+
+    @Autowired
+    private InvoiceService invoiceService;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
 
 
     @PostMapping("/generate-invoice")
@@ -50,12 +60,10 @@ public class InvoiceController {
     List<InvoiceDTO> invoiceDTOs = appService.getInvoiceDetails(generateInvoiceDTOList);
 
     if (invoiceDTOs != null) {
-        for (InvoiceDTO invoiceDTO : invoiceDTOs) {
-            System.out.println("InvoiceDTO - plan desc: " + invoiceDTO.getPlanDescription());
-            System.out.println("InvoiceDTO - name and phone: " + invoiceDTO.getNameAndPhones());
-            System.out.println("InvoiceDTO - Plan Id: " + invoiceDTO.getPlanId());
-            System.out.println("InvoiceDTO - emailId: " + invoiceDTO.getEmailId());
-            // Add any other desired fields here
+        for (int i = 0; i < invoiceDTOs.size(); i ++) {
+            System.out.println("plan description - " + invoiceDTOs.get(i).getPlanDescription());
+            String pdfFilePath = pdfService.WriteInvoice(invoiceDTOs.get(i), generateInvoiceDTOList.get(i));
+            invoiceService.addInvoice(invoiceDTOs.get(i), generateInvoiceDTOList.get(i), pdfFilePath);
         }
     } else {
         System.out.println("InvoiceDTO list is null.");
@@ -69,13 +77,26 @@ public class InvoiceController {
 
         if (invoiceDTOs != null) {
             for (InvoiceDTO invoiceDTO : invoiceDTOs) {
+                GenerateInvoiceDTO generateInvoiceDTO = new GenerateInvoiceDTO();
+                generateInvoiceDTO.setBillId(32);
+                generateInvoiceDTO.setFinalPrice(500.34);
+                
                 System.out.println("InvoiceDTO - plan desc: " + invoiceDTO.getPlanDescription());
                 System.out.println("InvoiceDTO - name and phone: " + invoiceDTO.getNameAndPhones());
                 System.out.println("InvoiceDTO - Plan Id: " + invoiceDTO.getPlanId());
                 System.out.println("InvoiceDTO - emailId: " + invoiceDTO.getEmailId());
-                // Add any other desired fields here
-                double finalPrice = 500;
-                pdfService.WriteInvoice(invoiceDTO, finalPrice);
+                
+                String pdfFilePath = pdfService.WriteInvoice(invoiceDTO,  generateInvoiceDTO);
+                
+                 try {
+                    emailSenderService.sendMailWithAttachment("nishitamohanty08@gmail.com",
+                "Here is your invoice",
+                "Hey babe ", "" +
+                        pdfFilePath);
+                } catch (MessagingException e) {
+                    
+                    e.printStackTrace(); 
+                }        
             }
         } else {
             System.out.println("InvoiceDTO list is null.");
@@ -106,7 +127,9 @@ public class InvoiceController {
 
     @GetMapping("/displayPdf")
     public ResponseEntity<InputStreamResource> displayPdf() throws IOException {
-        String pdfFilePath = "/home/bibhu04/Microservices/onestop/onestop-invoice/invoice/customer_details.pdf";
+        String currentDirectory = System.getProperty("user.dir");
+        String pdfFilePath = currentDirectory + "/invoice/customer_details.pdf";
+        //String pdfFilePath = "/home/bibhu04/Microservices/onestop/onestop-invoice/invoice/customer_details.pdf";
         Path path = Paths.get(pdfFilePath);
         File file = path.toFile();
 

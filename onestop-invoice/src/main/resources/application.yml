@@ -13,6 +13,20 @@ spring:
     show-sql: true
 
 # spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bibhupattanaik04@gmail.com
+    password: gkyw yhmy zyne wobm
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+# spring:
   application:
     name: ONESTOP-INVOICE
 
