@@ -64,9 +64,24 @@ public class InvoiceController {
     return new ResponseEntity<>("Invoice Generated", HttpStatus.OK);
 }
 
-    @GetMapping("/create")
-    public ResponseEntity<String> generateNewPDF(){
-        pdfService.WriteInvoice();
+    @PostMapping("/create")
+    public ResponseEntity<String> generateNewPDF(@RequestBody List<InvoiceDTO> invoiceDTOs){
+
+        if (invoiceDTOs != null) {
+            for (InvoiceDTO invoiceDTO : invoiceDTOs) {
+                System.out.println("InvoiceDTO - plan desc: " + invoiceDTO.getPlanDescription());
+                System.out.println("InvoiceDTO - name and phone: " + invoiceDTO.getNameAndPhones());
+                System.out.println("InvoiceDTO - Plan Id: " + invoiceDTO.getPlanId());
+                System.out.println("InvoiceDTO - emailId: " + invoiceDTO.getEmailId());
+                // Add any other desired fields here
+                double finalPrice = 500;
+                pdfService.WriteInvoice(invoiceDTO, finalPrice);
+            }
+        } else {
+            System.out.println("InvoiceDTO list is null.");
+        }
+
+        //pdfService.WriteInvoice();
 
         return new ResponseEntity<>( "Invoice Generated" , HttpStatus.OK);
     }
@@ -91,7 +106,7 @@ public class InvoiceController {
 
     @GetMapping("/displayPdf")
     public ResponseEntity<InputStreamResource> displayPdf() throws IOException {
-        String pdfFilePath = "/home/bibhu04/Microservices/onestop/onestop-invoice/customer_details.pdf";
+        String pdfFilePath = "/home/bibhu04/Microservices/onestop/onestop-invoice/invoice/customer_details.pdf";
         Path path = Paths.get(pdfFilePath);
         File file = path.toFile();
 
