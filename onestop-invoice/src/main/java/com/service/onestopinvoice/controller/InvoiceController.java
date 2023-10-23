@@ -98,15 +98,15 @@ public class InvoiceController {
                 
                 String pdfFilePath = pdfService.WriteInvoice(invoiceDTO,  generateInvoiceDTO);
                 
-                 try {
-                    emailSenderService.sendMailWithAttachment("handsompikul04@gmail.com",
-                "Here is your invoice",
-                "Your monthly invoice", "" +
-                        pdfFilePath);
-                } catch (MessagingException e) {
+                //  try {
+                //     emailSenderService.sendMailWithAttachment("handsompikul04@gmail.com",
+                // "Here is your invoice",
+                // "Your monthly invoice", "" +
+                //         pdfFilePath);
+                // } catch (MessagingException e) {
                     
-                    e.printStackTrace(); 
-                }        
+                //     e.printStackTrace(); 
+                // }        
             }
         } else {
             System.out.println("InvoiceDTO list is null.");

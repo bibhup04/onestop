@@ -92,6 +92,17 @@
             "mainClass": "com.service.onestopinvoice.OnestopInvoiceApplication",
             "projectName": "onestop-invoice",
             "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=45033 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=onestop-invoice"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OnestopCollectionApplication<onestop-collection>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.service.onestopcollection.OnestopCollectionApplication",
+            "projectName": "onestop-collection",
+            "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
     ]

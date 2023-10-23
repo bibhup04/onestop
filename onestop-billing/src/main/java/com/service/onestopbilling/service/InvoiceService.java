@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.service.onestopbilling.dto.GenerateInvoiceDTO;
-import com.service.onestopbilling.feignclint.InvoiceServiceClient;
+import com.service.onestopbilling.feignclient.InvoiceServiceClient;
 
 @Service
 public class InvoiceService {

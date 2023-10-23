@@ -2,15 +2,39 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: ott-invoice
-          uri: ib://OTT-INVOICE
+        # - id: onestop-invoice
+        #   uri: lb://ONESTOP-INVOICE
+        #   predicates:
+        #   - Path=/invoice/generate-invoice
+
+        - id: onestop-invoice
+          uri: lb://ONESTOP-INVOICE
           predicates:
-          - Path=/invoice/generate-invoice
-          
+          - Path=/invoice/**
+
         - id: ott-stub
           uri: lb://OTT-STUB
           predicates:
           - Path=/ott/**
+
+        # - id: onestop-collection
+        #   uri: lb://ONESTOP-COLLECTION
+        #   predicates:
+        #   - Path=/collection/**
+
+        - id: onestop-collection
+          uri: lb://ONESTOP-COLLECTION
+          predicates:
+          - Path=/collection/user
+          filters:
+            - AuthenticationFilter
+
+        - id: onestop-collection
+          uri: lb://ONESTOP-COLLECTION
+          predicates:
+          - Path=/collection/payment
+          filters:
+            - AuthenticationFilter
           
         - id: onestop=billing-app
           uri: lb://ONESTOP-BILLING
@@ -21,6 +45,13 @@ spring:
           uri: lb://ONESTOP-BILLING
           predicates:
            - Path=/subscribe/create-invoice
+
+        - id: onestop=billing-app
+          uri: lb://ONESTOP-BILLING
+          predicates:
+           - Path=/subscribe/user/subscription
+          filters:
+            - AuthenticationFilter
 
         - id: onestop-app-app
           uri: lb://ONESTOP-APP

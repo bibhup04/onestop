@@ -11,17 +11,20 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.service.onestopbilling.dto.GenerateInvoiceDTO;
 import com.service.onestopbilling.dto.SubscribeDTO;
+import com.service.onestopbilling.dto.UserDTO;
 import com.service.onestopbilling.entity.Billing;
 import com.service.onestopbilling.entity.CustomDateHandler;
 import com.service.onestopbilling.entity.Subscription;
 import com.service.onestopbilling.service.BillingService;
 import com.service.onestopbilling.service.InvoiceService;
 import com.service.onestopbilling.service.SubscriptionService;
+import com.service.onestopbilling.service.UserService;
 
 @RestController
 @RequestMapping("/subscribe")
@@ -35,6 +38,9 @@ public class SubscribeController {
 
    @Autowired 
    private InvoiceService invoiceService;
+
+   @Autowired
+   private UserService userService;
 
     @Autowired
     public SubscribeController(SubscriptionService subscriptionService) {
@@ -79,6 +85,14 @@ public class SubscribeController {
         System.out.println("inside billing controller.");
         return invoiceService.createInvoice(generateInvoiceDTO);
         //return new ResponseEntity<>( "its working", HttpStatus.OK);
+    }
+
+    @GetMapping("/user/subscription")
+    public ResponseEntity<String> getSubscribedPlan(@RequestHeader("Authorization") String token){
+        System.out.println("token is - " + token);
+        UserDTO userDTO = userService.getUserDetails(token);
+        System.out.println("user name is - " + userDTO.getName());
+        return new ResponseEntity<>( "its working", HttpStatus.OK);
     }
     
     

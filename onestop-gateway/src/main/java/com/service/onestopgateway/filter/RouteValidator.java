@@ -17,8 +17,9 @@ public class RouteValidator {
             "/app/home",
             "/app/invoice-details",
             "/subscribe/plan",
-            "/subscribe/create-invoice",
-            "/invoice/generate-invoice"  
+            "/subscribe/create-invoice"
+        //     "/invoice/generate-invoice",
+        //     "/invoice/create"  
 
     );  
 

@@ -14,25 +14,21 @@ import com.service.onestopinvoice.feignclint.AppServiceClient;
 @Service
 public class AppService {
 
-    @Autowired
-    private AppServiceClient appServiceClient;
+    private final AppServiceClient appServiceClient;
 
-    // public InvoiceDTO getInvoiceDetails(GenerateInvoiceDTO generateInvoiceDTO) {
-    //     ResponseEntity<InvoiceDTO> responseEntity = appServiceClient.generateInvoice(generateInvoiceDTO);
-    //     if (responseEntity.getStatusCode() == HttpStatus.OK) {
-    //         return responseEntity.getBody();
-    //     } else {
-    //         // Handle the case when the status code is not OK
-    //         return null;
-    //     }
-    // }
+    @Autowired
+    public AppService(AppServiceClient appServiceClient) {
+        this.appServiceClient = appServiceClient;
+    }
+
+   
 
     public List<InvoiceDTO> getInvoiceDetails(List<GenerateInvoiceDTO> generateInvoiceDTOs) {
         ResponseEntity<List<InvoiceDTO>> responseEntity = appServiceClient.generateInvoice(generateInvoiceDTOs);
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             return responseEntity.getBody();
         } else {
-            // Handle the case when the status code is not OK
+            
             return null;
         }
     }
