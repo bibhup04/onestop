@@ -20,4 +20,8 @@ public class BillingService {
     public ResponseEntity<String> updatePaymentStatus(CollectionDTO collectionDTO) {
         return billingServiceClient.receiveCollectionDTO(collectionDTO);
     }
+
+    public ResponseEntity<String> updateStatus() {
+        return billingServiceClient.updateStatus();
+    }
 }

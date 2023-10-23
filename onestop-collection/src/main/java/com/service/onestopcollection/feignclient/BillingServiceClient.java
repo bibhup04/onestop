@@ -12,5 +12,8 @@ public interface BillingServiceClient {
 
     @PostMapping("/update/payment")
     ResponseEntity<String> receiveCollectionDTO(@RequestBody CollectionDTO collectionDTO);
+
+    @PostMapping("/update/status")
+    ResponseEntity<String> updateStatus();
     
 }

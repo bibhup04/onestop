@@ -17,10 +17,10 @@ spring:
           predicates:
           - Path=/ott/**
 
-        # - id: onestop-collection
-        #   uri: lb://ONESTOP-COLLECTION
-        #   predicates:
-        #   - Path=/collection/**
+        - id: onestop-collection
+          uri: lb://ONESTOP-COLLECTION
+          predicates:
+          - Path=/collection/update/status
 
         - id: onestop-collection
           uri: lb://ONESTOP-COLLECTION

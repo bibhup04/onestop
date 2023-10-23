@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,5 +57,18 @@ public class CollectionController {
         ResponseEntity<String> response = billingService.updatePaymentStatus(collectionDTO);
         return new ResponseEntity<>(response.getBody(), response.getStatusCode());
     }
+
+    @PostMapping("/update/status")
+    public ResponseEntity<String> updateSubscriptionStatus(){
+        ResponseEntity<String> response = billingService.updateStatus();
+        return new ResponseEntity<>(response.getBody(), response.getStatusCode());
+    }
     
+
+    @Scheduled(cron = "0 0 0 14,28 * ?")
+    public void taskFor14thAnd28th() {
+        ResponseEntity<String> response = billingService.updateStatus();
+        //return new ResponseEntity<>(response.getBody(), response.getStatusCode());
+        System.out.println(response.getBody());
+    }
 }
