@@ -88,7 +88,7 @@ class OnestopBillingApplicationTests {
 		mockSubscription.setPlanId(789L);
 		mockSubscription.setFinalPrice(99.99);
 		mockSubscription.setEndDate(customDateHandler.getEndDate());
-		mockSubscription.setActive("ACTIVE");
+		mockSubscription.setStatus("ACTIVE");
 		mockSubscription.setAutoRenewal(true);
 
 		try {
@@ -136,7 +136,7 @@ class OnestopBillingApplicationTests {
             assertEquals(mockSubscription.getFinalPrice(), responseSubscription.getFinalPrice(), 0.001);
             assertEquals(mockSubscription.getCreatedAt(), responseSubscription.getCreatedAt());
             assertEquals(mockSubscription.getEndDate(), responseSubscription.getEndDate());
-            assertEquals(mockSubscription.getActive(), responseSubscription.getActive());
+            assertEquals(mockSubscription.getStatus(), responseSubscription.getStatus());
             assertEquals(mockSubscription.isAutoRenewal(), responseSubscription.isAutoRenewal());
         }
     }

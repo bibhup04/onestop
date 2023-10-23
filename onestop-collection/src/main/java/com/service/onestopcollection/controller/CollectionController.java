@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.netflix.discovery.converters.Auto;
 import com.service.onestopcollection.DTO.CollectionDTO;
 import com.service.onestopcollection.DTO.UserDTO;
+import com.service.onestopcollection.service.BillingService;
 import com.service.onestopcollection.service.CollectionService;
 import com.service.onestopcollection.service.UserService;
 
@@ -26,6 +27,9 @@ public class CollectionController {
 
     @Autowired
     private CollectionService collectionService;
+
+    @Autowired
+    private BillingService billingService;
 
     @GetMapping("/hello")
     public String helloWorld() {
@@ -49,8 +53,8 @@ public class CollectionController {
         System.out.println("Bill ID: " + collectionDTO.getBillId());
 
         collectionService.saveCollection(collectionDTO);
-
-        return new ResponseEntity<>( "amount collected successfully", HttpStatus.OK);
+        ResponseEntity<String> response = billingService.updatePaymentStatus(collectionDTO);
+        return new ResponseEntity<>(response.getBody(), response.getStatusCode());
     }
     
 }

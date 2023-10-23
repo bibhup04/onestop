@@ -36,17 +36,17 @@ public class SubscriptionService {
         subscription.setPlanId(subscriptionDto.getPlanId());
         subscription.setFinalPrice(subscriptionDto.getFinalPrice());
         subscription.setEndDate(endDate);
-        subscription.setActive("ACTIVE");
+        subscription.setStatus("ACTIVE");
         subscription.setAutoRenewal(true);
         return subscriptionRepository.save(subscription);
     }
 
     // public List<Subscription> getActiveSubscriptionsWithAutoRenewal() {
-    //     return subscriptionRepository.findByActiveAndAutoRenewal("ACTIVE", true);
+    //     return subscriptionRepository.findByStatusAndAutoRenewal("ACTIVE", true);
     // }
 
     public List<Subscription> getActiveSubscriptions() {
-        return subscriptionRepository.findByActive("ACTIVE");
+        return subscriptionRepository.findByStatus("ACTIVE");
     }
 
     public void renewSubscription(Date newEndDate){
@@ -59,5 +59,35 @@ public class SubscriptionService {
 
     public Subscription findSubscriptionByUserId(long userId) {
         return subscriptionRepository.findByUserId(userId);
+    }
+
+    public Subscription updateStatusToActive(Long subscriptionId) {
+        Optional<Subscription> subscriptionOptional = subscriptionRepository.findById(subscriptionId);
+        if (subscriptionOptional.isPresent()) {
+            Subscription subscription = subscriptionOptional.get();
+            if (subscription.getStatus().equals("SUSPEND")) {
+                subscription.setStatus("ACTIVE");
+                subscriptionRepository.save(subscription);
+            } 
+            return subscription;
+        } else {
+    
+            throw new IllegalArgumentException("Subscription with id " + subscriptionId + " not found.");
+        }
+    }
+
+    public void updateStatusForSubscriptions(List<Long> subscriptionIds) {
+        for (Long subscriptionId : subscriptionIds) {
+            Subscription subscription = subscriptionRepository.findById(subscriptionId).orElse(null);
+            if (subscription != null) {
+                String currentStatus = subscription.getStatus();
+                if (currentStatus.equals("SUSPEND")) {
+                    subscription.setStatus("TERMINATE");
+                } else if (currentStatus.equals("ACTIVE")) {
+                    subscription.setStatus("SUSPEND");
+                }
+                subscriptionRepository.save(subscription);
+            }
+        }
     }
 }

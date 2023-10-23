@@ -34,6 +34,6 @@ public class Subscription {
     private Date createdAt;
     
     private Date endDate;
-    private String active;
+    private String status;
     private boolean autoRenewal;
 }

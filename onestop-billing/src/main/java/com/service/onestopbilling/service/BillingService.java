@@ -3,6 +3,7 @@ package com.service.onestopbilling.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,11 +39,18 @@ public class BillingService {
         Optional<Billing> billingOptional = billingRepository.findById(billId);
         if (billingOptional.isPresent()) {
             Billing billing = billingOptional.get();
-            billing.setPaymentStatus("Paid");
+            billing.setPaymentStatus("PAID");
             return billingRepository.save(billing);
         } else {
             throw new IllegalArgumentException("Bill with id " + billId + " not found.");
         }
+    }
+
+    public List<Long> findSubscriptionIdsByPaymentStatusPending() {
+        List<Billing> pendingBills = billingRepository.findByPaymentStatus("PENDING");
+        return pendingBills.stream()
+                .map(Billing::getSubscriptionId)
+                .collect(Collectors.toList());
     }
 
 
@@ -53,7 +61,7 @@ public class BillingService {
             Billing billing = new Billing();
             billing.setAmount(sub.getFinalPrice());
             billing.setSubscriptionId(sub.getSubscriptionId());
-            billing.setPaymentStatus("Pending");
+            billing.setPaymentStatus("PENDING");
             billing.setUserId(sub.getUserId());
             billingRepository.save(billing);
 
