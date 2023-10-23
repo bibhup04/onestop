@@ -64,6 +64,16 @@ public class InvoiceController {
             System.out.println("plan description - " + invoiceDTOs.get(i).getPlanDescription());
             String pdfFilePath = pdfService.WriteInvoice(invoiceDTOs.get(i), generateInvoiceDTOList.get(i));
             invoiceService.addInvoice(invoiceDTOs.get(i), generateInvoiceDTOList.get(i), pdfFilePath);
+
+            try {
+                emailSenderService.sendMailWithAttachment(invoiceDTOs.get(i).getEmailId(),
+                "Here is your invoice",
+                "Your monthly invoice", "" +
+                        pdfFilePath);
+                } catch (MessagingException e) {
+                    
+                    e.printStackTrace(); 
+                }       
         }
     } else {
         System.out.println("InvoiceDTO list is null.");
@@ -89,9 +99,9 @@ public class InvoiceController {
                 String pdfFilePath = pdfService.WriteInvoice(invoiceDTO,  generateInvoiceDTO);
                 
                  try {
-                    emailSenderService.sendMailWithAttachment("nishitamohanty08@gmail.com",
+                    emailSenderService.sendMailWithAttachment("handsompikul04@gmail.com",
                 "Here is your invoice",
-                "Hey babe ", "" +
+                "Your monthly invoice", "" +
                         pdfFilePath);
                 } catch (MessagingException e) {
                     

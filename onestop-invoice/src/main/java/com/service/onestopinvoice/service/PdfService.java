@@ -176,6 +176,9 @@ public class PdfService {
       cs.setFont(PDType1Font.TIMES_ROMAN, 14);
       cs.newLineAtOffset(450, rowY - 40);
       double discount = invoiceDTO.getPrice() -  generateInvoiceDTO.getFinalPrice();
+      String formattedDiscount = String.format("%.2f", discount);
+
+      discount = Double.parseDouble(formattedDiscount);
       cs.showText(Double.toString(discount));
       cs.endText();
 
