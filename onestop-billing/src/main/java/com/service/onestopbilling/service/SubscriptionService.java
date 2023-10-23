@@ -55,6 +55,9 @@ public class SubscriptionService {
             subscription.setEndDate(newEndDate);
             subscriptionRepository.save(subscription);
         }
+    }
 
+    public Subscription findSubscriptionByUserId(long userId) {
+        return subscriptionRepository.findByUserId(userId);
     }
 }

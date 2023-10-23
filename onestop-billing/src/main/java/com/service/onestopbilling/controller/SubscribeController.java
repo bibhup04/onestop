@@ -88,11 +88,19 @@ public class SubscribeController {
     }
 
     @GetMapping("/user/subscription")
-    public ResponseEntity<String> getSubscribedPlan(@RequestHeader("Authorization") String token){
+    public ResponseEntity<Subscription> getSubscribedPlan(@RequestHeader("Authorization") String token){
         System.out.println("token is - " + token);
         UserDTO userDTO = userService.getUserDetails(token);
-        System.out.println("user name is - " + userDTO.getName());
-        return new ResponseEntity<>( "its working", HttpStatus.OK);
+        Subscription subscription = subscriptionService.findSubscriptionByUserId(userDTO.getId());
+        return new ResponseEntity<>( subscription, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/bill")
+    public ResponseEntity<Billing> getUnpaidBill(@RequestHeader("Authorization") String token){
+        System.out.println("token is - " + token);
+        UserDTO userDTO = userService.getUserDetails(token);
+        Billing billing = billingService.findBillByUserIdAndPaymentStatusPending(userDTO.getId());
+        return new ResponseEntity<>( billing, HttpStatus.OK);
     }
     
     

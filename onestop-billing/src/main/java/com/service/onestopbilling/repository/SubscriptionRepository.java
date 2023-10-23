@@ -15,5 +15,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     List<Subscription> findByAutoRenewal(boolean autoRenewal);
 
     List<Subscription> findByActive(String active);
+
+    Subscription findByUserId(long userId);
     
 }

@@ -44,12 +44,24 @@ spring:
         - id: onestop=billing-app
           uri: lb://ONESTOP-BILLING
           predicates:
+           - Path=/subscribe/update/payment
+        
+        - id: onestop=billing-app
+          uri: lb://ONESTOP-BILLING
+          predicates:
            - Path=/subscribe/create-invoice
 
         - id: onestop=billing-app
           uri: lb://ONESTOP-BILLING
           predicates:
            - Path=/subscribe/user/subscription
+          filters:
+            - AuthenticationFilter
+
+        - id: onestop=billing-app
+          uri: lb://ONESTOP-BILLING
+          predicates:
+           - Path=/subscribe/user/bill
           filters:
             - AuthenticationFilter
 

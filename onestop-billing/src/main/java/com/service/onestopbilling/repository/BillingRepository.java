@@ -7,5 +7,6 @@ import com.service.onestopbilling.entity.Billing;
 
 @Repository
 public interface BillingRepository extends JpaRepository<Billing, Long> {
-    // Add custom query methods if needed
+    
+    Billing findByUserIdAndPaymentStatus(Long userId, String paymentStatus);
 }

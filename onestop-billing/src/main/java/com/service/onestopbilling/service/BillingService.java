@@ -30,13 +30,20 @@ public class BillingService {
         return billingRepository.findAll();
     }
 
-    // public Optional<Billing> getBillingById(Long id) {
-    //     return billingRepository.findById(id);
-    // }
+    public Billing findBillByUserIdAndPaymentStatusPending(long userId) {
+        return billingRepository.findByUserIdAndPaymentStatus(userId, "Pending");
+    }
 
-    // public Billing saveBilling(Billing billing) {
-    //     return billingRepository.save(billing);
-    // }
+    public Billing updatePaymentStatusToPaid(Long billId) {
+        Optional<Billing> billingOptional = billingRepository.findById(billId);
+        if (billingOptional.isPresent()) {
+            Billing billing = billingOptional.get();
+            billing.setPaymentStatus("Paid");
+            return billingRepository.save(billing);
+        } else {
+            throw new IllegalArgumentException("Bill with id " + billId + " not found.");
+        }
+    }
 
 
     public List<Billing> createbills(){
