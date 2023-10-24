@@ -154,7 +154,7 @@ public class InvoiceController {
 
    
 
-    @GetMapping("/displayPdf")
+    @PostMapping("/displayPdf")
     public ResponseEntity<InputStreamResource> displayPdf(@RequestBody InvoiceIdDTO invoiceIdDTO) throws IOException {
         Invoice invoice = invoiceService.getInvoiceById(invoiceIdDTO.getInvoiceId()).get();
         
