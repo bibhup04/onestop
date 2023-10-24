@@ -41,4 +41,9 @@ public class InvoiceService {
         invoiceRepository.save(invoice);
     }
 
+    public List<Invoice> getAllInvoicesByUserId(Long userId) {
+        //return invoiceRepository.findAllByUserId(userId);
+        return invoiceRepository.findAllByUserIdOrderByIdDesc(userId);
+    }
+
 }

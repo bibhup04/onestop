@@ -62,12 +62,14 @@ public class SubscribeController {
     }
     
 
-    //@Scheduled(fixedRate = 10000)
+
+        //@Scheduled(cron = "*/2 * * * *")
+    @Scheduled(fixedDelay = 120000, initialDelay = 120000)
     public void generateBill() {
         billingService.createbills();
        // customDateHandler.increaseEndDateBy30Days();
         subscriptionService.renewSubscription(customDateHandler.getEndDate());
-        System.out.println("bill generated and end date updated");
+        System.out.println("\n\nbill generated and end date updated\n\n");
     }
 
     @GetMapping("/bill")

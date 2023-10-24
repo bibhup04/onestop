@@ -2,15 +2,17 @@ spring:
   cloud:
     gateway:
       routes:
-        # - id: onestop-invoice
-        #   uri: lb://ONESTOP-INVOICE
-        #   predicates:
-        #   - Path=/invoice/generate-invoice
-
         - id: onestop-invoice
           uri: lb://ONESTOP-INVOICE
           predicates:
           - Path=/invoice/**
+
+        - id: onestop-invoice
+          uri: lb://ONESTOP-INVOICE
+          predicates:
+          - Path=/invoice/get/invoice
+          filters:
+            - AuthenticationFilter
 
         - id: ott-stub
           uri: lb://OTT-STUB

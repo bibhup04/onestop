@@ -73,7 +73,10 @@ public class BillingService {
             
             generateInvoiceDTOs.add(generateInvoiceDTO);
         }
-        invoiceService.createInvoice(generateInvoiceDTOs);
+        if(generateInvoiceDTOs.size() > 0){
+            invoiceService.createInvoice(generateInvoiceDTOs);
+        }
+        
         return getAllBillings();
     }
 }

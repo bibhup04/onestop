@@ -18,15 +18,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.service.onestopinvoice.DTO.GenerateInvoiceDTO;
 import com.service.onestopinvoice.DTO.InvoiceDTO;
+import com.service.onestopinvoice.DTO.InvoiceIdDTO;
+import com.service.onestopinvoice.DTO.UserDTO;
+import com.service.onestopinvoice.entity.Invoice;
 import com.service.onestopinvoice.service.AppService;
 import com.service.onestopinvoice.service.EmailSenderService;
 import com.service.onestopinvoice.service.InvoiceService;
 import com.service.onestopinvoice.service.PdfService;
+import com.service.onestopinvoice.service.UserService;
 
 import jakarta.mail.MessagingException;
 
@@ -38,6 +43,9 @@ public class InvoiceController {
     private PdfService pdfService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private AppService appService;
 
     @Autowired
@@ -45,6 +53,16 @@ public class InvoiceController {
 
     @Autowired
     private EmailSenderService emailSenderService;
+
+
+     @GetMapping("/get/invoice")
+    public ResponseEntity<List<Invoice>> createFamilyDetails(@RequestHeader("Authorization") String token){
+        System.out.println("token - " + token);
+        UserDTO userDTO = userService.getUserDetails(token);
+        List<Invoice> invoices = invoiceService.getAllInvoicesByUserId(userDTO.getId());
+        return new ResponseEntity<>( invoices, HttpStatus.OK);
+    }
+    
 
 
     @PostMapping("/generate-invoice")
@@ -133,13 +151,16 @@ public class InvoiceController {
     //         .contentType(MediaType.APPLICATION_PDF)
     //         .body(new InputStreamResource(pdf));
     // }
-    
+
+   
 
     @GetMapping("/displayPdf")
-    public ResponseEntity<InputStreamResource> displayPdf() throws IOException {
-        String currentDirectory = System.getProperty("user.dir");
-        String pdfFilePath = currentDirectory + "/invoice/customer_details.pdf";
-        //String pdfFilePath = "/home/bibhu04/Microservices/onestop/onestop-invoice/invoice/customer_details.pdf";
+    public ResponseEntity<InputStreamResource> displayPdf(@RequestBody InvoiceIdDTO invoiceIdDTO) throws IOException {
+        Invoice invoice = invoiceService.getInvoiceById(invoiceIdDTO.getInvoiceId()).get();
+        
+        // String currentDirectory = System.getProperty("user.dir");
+        // String pdfFilePath = currentDirectory + "/invoice/customer_details.pdf";
+        String pdfFilePath = invoice.getPath();
         Path path = Paths.get(pdfFilePath);
         File file = path.toFile();
 

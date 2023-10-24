@@ -65,10 +65,12 @@ public class CollectionController {
     }
     
 
-    @Scheduled(cron = "0 0 0 14,28 * ?")
+   // @Scheduled(cron = "0 0 10 14,28 * ?")
+    @Scheduled(fixedDelay = 40000, initialDelay = 40000)
     public void taskFor14thAnd28th() {
         ResponseEntity<String> response = billingService.updateStatus();
         //return new ResponseEntity<>(response.getBody(), response.getStatusCode());
-        System.out.println(response.getBody());
+        System.out.println("\n\nstatus updated successfully\n\n");
+       System.out.println(response.getBody());
     }
 }
