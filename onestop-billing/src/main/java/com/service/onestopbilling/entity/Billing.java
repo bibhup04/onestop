@@ -35,4 +35,5 @@ public class Billing {
     private double amount;
 
     private String paymentStatus;
+    
 }

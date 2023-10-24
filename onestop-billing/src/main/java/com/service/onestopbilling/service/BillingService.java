@@ -32,7 +32,7 @@ public class BillingService {
     }
 
     public Billing findBillByUserIdAndPaymentStatusPending(long userId) {
-        return billingRepository.findByUserIdAndPaymentStatus(userId, "Pending");
+        return billingRepository.findByUserIdAndPaymentStatus(userId, "PENDING");
     }
 
     public Billing updatePaymentStatusToPaid(Long billId) {
@@ -52,6 +52,11 @@ public class BillingService {
                 .map(Billing::getSubscriptionId)
                 .collect(Collectors.toList());
     }
+
+    public Billing getLastBillByUserId(Long userId) {
+        return billingRepository.findTopByUserIdOrderByCreatedAtDesc(userId);
+    }
+    
 
 
     public List<Billing> createbills(){

@@ -99,9 +99,9 @@ public class SubscribeController {
 
     @GetMapping("/user/bill")
     public ResponseEntity<Billing> getUnpaidBill(@RequestHeader("Authorization") String token){
-        System.out.println("token is - " + token);
+        //System.out.println("token is - " + token);
         UserDTO userDTO = userService.getUserDetails(token);
-        Billing billing = billingService.findBillByUserIdAndPaymentStatusPending(userDTO.getId());
+        Billing billing = billingService.getLastBillByUserId(userDTO.getId());
         return new ResponseEntity<>( billing, HttpStatus.OK);
     }
     

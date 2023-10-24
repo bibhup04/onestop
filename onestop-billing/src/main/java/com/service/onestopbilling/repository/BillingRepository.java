@@ -13,4 +13,6 @@ public interface BillingRepository extends JpaRepository<Billing, Long> {
     Billing findByUserIdAndPaymentStatus(Long userId, String paymentStatus);
     
     List<Billing> findByPaymentStatus(String paymentStatus);
+
+    Billing findTopByUserIdOrderByCreatedAtDesc(Long userId);
 }
