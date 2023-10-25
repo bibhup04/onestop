@@ -22,7 +22,7 @@ import com.service.onestopapp.dto.NameAndPhone;
 import com.service.onestopapp.dto.NewMemberDTO;
 import com.service.onestopapp.dto.PlanDTO;
 import com.service.onestopapp.dto.PlanIdDTO;
-
+import com.service.onestopapp.dto.Subscription;
 import com.service.onestopapp.dto.UserDTO;
 import com.service.onestopapp.entity.Family;
 
@@ -97,13 +97,31 @@ public class AppController {
 
     @PostMapping("/addMember")
     public ResponseEntity<String> addFamilyMember(@RequestHeader("Authorization") String token,@RequestBody NewMemberDTO newMemberDTO){
+        
         System.out.println("token isn " + token);
         UserDTO userDTO = userService.getUserDetails(token);
         System.out.println("New Member DTO: " + newMemberDTO.getMembers());
-
+        ResponseEntity<Subscription> responseEntity  = subscribePlanService.getSubscriptionDetails(token);
+        Subscription subscription = responseEntity.getBody();
+        
+        int newMembers = newMemberDTO.getMembers().size();
         Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
+        int existingMembers = memberService.getMemberCountByFamilyId(family);
+
+        if(subscription != null){
+          
+          int MaxAcceptedMembers = planService.getMemberCountByPlanId(subscription.getPlanId());
+          if(MaxAcceptedMembers < newMembers + existingMembers){
+                return new ResponseEntity<>("Number of members is greater than the members count of the plan", HttpStatus.BAD_REQUEST);
+          }
+
+        } else if(newMembers + existingMembers >6){
+            return new ResponseEntity<>("Number of members is greater than maximum limit", HttpStatus.BAD_REQUEST);
+        }
+        
+     
         System.out.println("familyId is " + family.getFamilyId());
-         memberService.addMember(family, newMemberDTO);
+        memberService.addMember(family, newMemberDTO);
         System.out.println("family members added");
 
         List<NameAndPhone> members = newMemberDTO.getMembers();

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.service.onestopapp.dto.SubscribeDTO;
+import com.service.onestopapp.dto.Subscription;
 import com.service.onestopapp.dto.UserDTO;
 import com.service.onestopapp.entity.Family;
 import com.service.onestopapp.feignclint.BillingServiceClient;
@@ -30,6 +31,10 @@ public class SubscribePlanService {
         subscribeDTO.setFinalPrice(planService.getFinalPriceByPlanId(planId));
 
         return billingServiceClient.subscribePlan(subscribeDTO);
+    }
+
+    public ResponseEntity<Subscription> getSubscriptionDetails(String token){
+        return billingServiceClient.getSubscribedPlan(token);
     }
 
    
