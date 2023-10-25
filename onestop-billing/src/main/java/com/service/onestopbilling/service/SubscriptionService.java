@@ -30,6 +30,14 @@ public class SubscriptionService {
         return existingSubscription.isPresent();
     }
 
+    public void deleteSubscriptionById(Long subscriptionId) {
+        if (subscriptionRepository.existsById(subscriptionId)) {
+            subscriptionRepository.deleteById(subscriptionId);
+        } else {
+            throw new IllegalArgumentException("Subscription with ID " + subscriptionId + " does not exist.");
+        }
+    }
+
     public Subscription saveSubscription(Date endDate, SubscribeDTO subscriptionDto) {
         Subscription subscription = new Subscription();
         subscription.setUserId(subscriptionDto.getUserId());
@@ -59,9 +67,10 @@ public class SubscriptionService {
     }
 
     public Subscription findSubscriptionByUserId(long userId) {
-        return subscriptionRepository.findByUserId(userId).get();
+        Optional<Subscription> subscriptionOptional = subscriptionRepository.findByUserId(userId);
+        return subscriptionOptional.orElse(null);
     }
-
+    
     public Subscription updateStatusToActive(Long subscriptionId) {
         Optional<Subscription> subscriptionOptional = subscriptionRepository.findById(subscriptionId);
         if (subscriptionOptional.isPresent()) {
@@ -72,8 +81,8 @@ public class SubscriptionService {
             } 
             return subscription;
         } else {
-    
-            throw new IllegalArgumentException("Subscription with id " + subscriptionId + " not found.");
+            return null;   
+           // throw new IllegalArgumentException("Subscription with id " + subscriptionId + " not found.");
         }
     }
 

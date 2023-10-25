@@ -132,7 +132,7 @@ public class InvoiceController {
 
         //pdfService.WriteInvoice();
 
-        return new ResponseEntity<>( "Invoice Generated" , HttpStatus.OK);
+        return new ResponseEntity<>( "Bill and Invoice Generated" , HttpStatus.OK);
     }
 
     //  @GetMapping("/generate")

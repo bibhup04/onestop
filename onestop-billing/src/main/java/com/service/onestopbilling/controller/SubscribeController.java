@@ -2,6 +2,7 @@ package com.service.onestopbilling.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,10 @@ public class SubscribeController {
     @PostMapping("/plan")
     public ResponseEntity<String> subscribePlan(@RequestBody SubscribeDTO subscribeDTO) {
         boolean subscribed = subscriptionService.isSubscriptionPresentForUser(subscribeDTO.getUserId());
-        if (subscribed) {
+        Optional<Billing> billing = billingService.findBillByUserIdAndPaymentStatusPending(subscribeDTO.getUserId());
+        if(billing.isPresent()){
+            return new ResponseEntity<>("Please pay the existing bills.", HttpStatus.BAD_REQUEST);
+        }else if (subscribed) {
             return new ResponseEntity<>("The user is already subscribed to a plan.", HttpStatus.BAD_REQUEST);
         } else {
             Date endDate = customDateHandler.getEndDate();
@@ -68,7 +72,7 @@ public class SubscribeController {
 
 
         //@Scheduled(cron = "*/2 * * * *")
-    //@Scheduled(fixedDelay = 120000, initialDelay = 120000)
+    @Scheduled(fixedDelay = 120000, initialDelay = 120000)
     public void generateBill() {
         billingService.createbills();
        // customDateHandler.increaseEndDateBy30Days();
@@ -104,8 +108,8 @@ public class SubscribeController {
     @PostMapping("/end/subscription")
     public ResponseEntity<String> endSubscribedPlan(@RequestBody Subscription subscription){
         System.out.println("subscription id - " + subscription.getSubscriptionId());
-
-        return new ResponseEntity<>( "subscription", HttpStatus.OK);
+        return billingService.endSubscriptionBill(subscription);
+        //return new ResponseEntity<>( "subscription ended", HttpStatus.OK);
     }
 
     @GetMapping("/user/bill")
@@ -115,6 +119,4 @@ public class SubscribeController {
         Billing billing = billingService.getLastBillByUserId(userDTO.getId());
         return new ResponseEntity<>( billing, HttpStatus.OK);
     }
-    
-    
 }

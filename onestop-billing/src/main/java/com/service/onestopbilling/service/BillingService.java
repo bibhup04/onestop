@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.service.onestopbilling.dto.GenerateInvoiceDTO;
@@ -31,7 +33,7 @@ public class BillingService {
         return billingRepository.findAll();
     }
 
-    public Billing findBillByUserIdAndPaymentStatusPending(long userId) {
+    public Optional<Billing> findBillByUserIdAndPaymentStatusPending(long userId) {
         return billingRepository.findByUserIdAndPaymentStatus(userId, "PENDING");
     }
 
@@ -57,14 +59,36 @@ public class BillingService {
         return billingRepository.findTopByUserIdOrderByCreatedAtDesc(userId);
     }
 
-    public void EndSubscriptionBill(Subscription subscription){
+    public ResponseEntity<String> endSubscriptionBill(Subscription subscription){
+        
+        Optional<Billing> existingBilling = findBillByUserIdAndPaymentStatusPending(subscription.getUserId());
+
+        if(existingBilling.isPresent()){
+            subscriptionService.deleteSubscriptionById(subscription.getSubscriptionId());
+            return new ResponseEntity<>("Please pay the pending bill.", HttpStatus.OK);
+        }
+
+        List<GenerateInvoiceDTO> generateInvoiceDTOs = new ArrayList<>();
         Billing billing = new Billing();
         billing.setSubscriptionId(subscription.getSubscriptionId());
         billing.setAmount(subscription.getFinalPrice());
         billing.setPaymentStatus("PENDING");
         billing.setUserId(subscription.getUserId());
         billingRepository.save(billing);
+
+        subscriptionService.deleteSubscriptionById(subscription.getSubscriptionId());
+
+        GenerateInvoiceDTO generateInvoiceDTO = new GenerateInvoiceDTO();
+        generateInvoiceDTO.setBillId(billing.getBillingId());
+        generateInvoiceDTO.setPlanId(subscription.getPlanId());
+        generateInvoiceDTO.setUserId(subscription.getUserId());
+        generateInvoiceDTO.setFinalPrice(subscription.getFinalPrice());
+        generateInvoiceDTOs.add(generateInvoiceDTO);
+        
+        return  invoiceService.createInvoice(generateInvoiceDTOs);
+        
      }
+
     
 
 

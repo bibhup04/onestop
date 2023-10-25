@@ -1,24 +1,23 @@
 package com.service.onestopbilling;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.verify;
+// import static org.junit.jupiter.api.Assertions.assertTrue;
+// import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.math.stat.descriptive.summary.Product;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ import java.lang.reflect.Field;
 
 import com.service.onestopbilling.controller.SubscribeController;
 import com.service.onestopbilling.dto.SubscribeDTO;
-import com.service.onestopbilling.entity.Billing;
+
 import com.service.onestopbilling.entity.CustomDateHandler;
 import com.service.onestopbilling.entity.Subscription;
 import com.service.onestopbilling.repository.BillingRepository;
@@ -141,25 +140,5 @@ class OnestopBillingApplicationTests {
         }
     }
     
-
-	// @Test
-    // public void testCreateBills() {
-    //     // Set up mock data for testing
-    //     List<Subscription> mockSubscriptions = new ArrayList<>();
-    //      mockSubscriptions.add(new Subscription(1L, 1L, 123456L, 789L, 99.99, new Date(), new Date(), "ACTIVE", true));
-    //     mockSubscriptions.add(new Subscription(2L, 2L, 789123L, 456L, 199.99, new Date(), new Date(), "ACTIVE", false));
-
-    //     // ... (add some mock Subscription objects to the list)
-
-    //     when(subscriptionService.getActiveSubscriptions()).thenReturn(mockSubscriptions);
-
-    //     // Call the method to be tested
-    //     billingService.createbills();
-
-    //     // Verify that the billingRepository method is called with the correct Billing object
-    //     for (Subscription sub : mockSubscriptions) {
-    //         verify(billingRepository).save(Mockito.any(Billing.class));
-    //     }
-    // }
 
 }
