@@ -24,6 +24,3 @@ eureka:
 
 server:
   port: 9898
-
-jwt:
-  nothing: euirt

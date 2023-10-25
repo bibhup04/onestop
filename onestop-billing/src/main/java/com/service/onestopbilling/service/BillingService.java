@@ -56,6 +56,15 @@ public class BillingService {
     public Billing getLastBillByUserId(Long userId) {
         return billingRepository.findTopByUserIdOrderByCreatedAtDesc(userId);
     }
+
+    public void EndSubscriptionBill(Subscription subscription){
+        Billing billing = new Billing();
+        billing.setSubscriptionId(subscription.getSubscriptionId());
+        billing.setAmount(subscription.getFinalPrice());
+        billing.setPaymentStatus("PENDING");
+        billing.setUserId(subscription.getUserId());
+        billingRepository.save(billing);
+     }
     
 
 

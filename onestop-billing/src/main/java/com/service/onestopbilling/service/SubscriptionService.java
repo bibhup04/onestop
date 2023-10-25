@@ -25,9 +25,10 @@ public class SubscriptionService {
         return subscriptionRepository.findAll();
     }
 
-    // public Optional<Subscription> getSubscriptionById(Long id) {
-    //     return subscriptionRepository.findById(id);
-    // }
+    public boolean isSubscriptionPresentForUser(long userId) {
+        Optional<Subscription> existingSubscription = subscriptionRepository.findByUserId(userId);
+        return existingSubscription.isPresent();
+    }
 
     public Subscription saveSubscription(Date endDate, SubscribeDTO subscriptionDto) {
         Subscription subscription = new Subscription();
@@ -58,7 +59,7 @@ public class SubscriptionService {
     }
 
     public Subscription findSubscriptionByUserId(long userId) {
-        return subscriptionRepository.findByUserId(userId);
+        return subscriptionRepository.findByUserId(userId).get();
     }
 
     public Subscription updateStatusToActive(Long subscriptionId) {

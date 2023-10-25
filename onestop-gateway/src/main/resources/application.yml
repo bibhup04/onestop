@@ -41,7 +41,12 @@ spring:
         - id: onestop=billing-app
           uri: lb://ONESTOP-BILLING
           predicates:
-           - Path=/subscribe/plan
+           - Path=/subscribe/plan 
+        
+        - id: onestop=billing-app
+          uri: lb://ONESTOP-BILLING
+          predicates:
+           - Path=/subscribe/end/subscription
         
         - id: onestop=billing-app
           uri: lb://ONESTOP-BILLING

@@ -21,7 +21,7 @@ public class SubscribePlanService {
         this.planService = planService;
     }
 
-    public void subscribePlan(long planId, UserDTO userDTO, Family family) {
+    public ResponseEntity<String> subscribePlan(long planId, UserDTO userDTO, Family family) {
         SubscribeDTO subscribeDTO = new SubscribeDTO(); 
 
         subscribeDTO.setPlanId(planId);
@@ -29,8 +29,9 @@ public class SubscribePlanService {
         subscribeDTO.setFamilyId(family.getFamilyId());
         subscribeDTO.setFinalPrice(planService.getFinalPriceByPlanId(planId));
 
-        ResponseEntity<String> response = billingServiceClient.subscribePlan(subscribeDTO);
-
+        return billingServiceClient.subscribePlan(subscribeDTO);
     }
+
+   
     
 }

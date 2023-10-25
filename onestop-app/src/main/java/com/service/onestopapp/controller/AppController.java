@@ -34,6 +34,7 @@ import com.service.onestopapp.service.SubscribePlanService;
 import com.service.onestopapp.service.UserService;
 import com.service.onestopapp.util.JwtUtil;
 
+import feign.FeignException;
 
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -66,17 +67,20 @@ public class AppController {
 
 
     @PostMapping("/plan/buy")
-    public ResponseEntity<String> buyPlan(@RequestHeader("Authorization") String token,@RequestBody PlanIdDTO planIdDTO){
-        
-        UserDTO userDTO = userService.getUserDetails(token);
-        System.out.println("user name - " + userDTO.getName() + "plan Id - " + planIdDTO.getPlanId());
-        Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
-        if(planService.getMemberCountByPlanId(planIdDTO.getPlanId())< memberService.getMemberCountByFamilyId(family)){
-            return new ResponseEntity<>("Number of members is greater than the members count of plan", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> buyPlan(@RequestHeader("Authorization") String token, @RequestBody PlanIdDTO planIdDTO) {
+        try {
+            UserDTO userDTO = userService.getUserDetails(token);
+            System.out.println("user name - " + userDTO.getName() + "plan Id - " + planIdDTO.getPlanId());
+            Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
+            if (planService.getMemberCountByPlanId(planIdDTO.getPlanId()) < memberService.getMemberCountByFamilyId(family)) {
+                return new ResponseEntity<>("Number of members is greater than the members count of the plan", HttpStatus.BAD_REQUEST);
+            }
+            return subscribePlanService.subscribePlan(planIdDTO.getPlanId(), userDTO, family);
+        } catch (FeignException.BadRequest ex) {
+            return new ResponseEntity<>(ex.contentUTF8(), HttpStatus.BAD_REQUEST);
         }
-        subscribePlanService.subscribePlan(planIdDTO.getPlanId(), userDTO, family);
-        return new ResponseEntity<>( "plan buyed", HttpStatus.OK);
     }
+
 
     @GetMapping("/home")
     public List<PlanDTO> getPlans() {

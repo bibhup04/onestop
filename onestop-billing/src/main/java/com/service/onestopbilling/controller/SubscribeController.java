@@ -48,12 +48,16 @@ public class SubscribeController {
     }
 
 
-
     @PostMapping("/plan")
-    public  ResponseEntity<String> subscribePlan(@RequestBody SubscribeDTO subscribeDTO){
-        Date endDate = customDateHandler.getEndDate();
-        subscriptionService.saveSubscription(endDate, subscribeDTO);
-        return new ResponseEntity<>( "plan subscribed successfully", HttpStatus.OK);
+    public ResponseEntity<String> subscribePlan(@RequestBody SubscribeDTO subscribeDTO) {
+        boolean subscribed = subscriptionService.isSubscriptionPresentForUser(subscribeDTO.getUserId());
+        if (subscribed) {
+            return new ResponseEntity<>("The user is already subscribed to a plan.", HttpStatus.BAD_REQUEST);
+        } else {
+            Date endDate = customDateHandler.getEndDate();
+            subscriptionService.saveSubscription(endDate, subscribeDTO);
+            return new ResponseEntity<>("Plan subscribed successfully", HttpStatus.OK);
+        }
     }
    
     @GetMapping("/all")
@@ -64,7 +68,7 @@ public class SubscribeController {
 
 
         //@Scheduled(cron = "*/2 * * * *")
-    @Scheduled(fixedDelay = 120000, initialDelay = 120000)
+    //@Scheduled(fixedDelay = 120000, initialDelay = 120000)
     public void generateBill() {
         billingService.createbills();
        // customDateHandler.increaseEndDateBy30Days();
@@ -95,6 +99,13 @@ public class SubscribeController {
         UserDTO userDTO = userService.getUserDetails(token);
         Subscription subscription = subscriptionService.findSubscriptionByUserId(userDTO.getId());
         return new ResponseEntity<>( subscription, HttpStatus.OK);
+    }
+
+    @PostMapping("/end/subscription")
+    public ResponseEntity<String> endSubscribedPlan(@RequestBody Subscription subscription){
+        System.out.println("subscription id - " + subscription.getSubscriptionId());
+
+        return new ResponseEntity<>( "subscription", HttpStatus.OK);
     }
 
     @GetMapping("/user/bill")
