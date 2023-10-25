@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StubDTO {
-    private PlanDTO planDTO;
+    private List<Ott> otts;
     private UserDTO userDTO;
     private List<NameAndPhone> members;
     

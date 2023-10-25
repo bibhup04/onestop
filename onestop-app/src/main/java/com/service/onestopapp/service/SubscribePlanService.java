@@ -15,11 +15,13 @@ public class SubscribePlanService {
 
     private final BillingServiceClient billingServiceClient;
     private final PlanService planService;
+    private final OttStubService ottStubService;
 
     @Autowired
-    public SubscribePlanService(BillingServiceClient billingServiceClient, PlanService planService) {
+    public SubscribePlanService(OttStubService ottStubService,BillingServiceClient billingServiceClient, PlanService planService) {
         this.billingServiceClient = billingServiceClient;
         this.planService = planService;
+        this.ottStubService = ottStubService;
     }
 
     public ResponseEntity<String> subscribePlan(long planId, UserDTO userDTO, Family family) {
@@ -29,6 +31,8 @@ public class SubscribePlanService {
         subscribeDTO.setUserId(userDTO.getId());
         subscribeDTO.setFamilyId(family.getFamilyId());
         subscribeDTO.setFinalPrice(planService.getFinalPriceByPlanId(planId));
+
+        ottStubService.sendStubDTO(planService.getPlansById(planId).get(), userDTO,family);
 
         return billingServiceClient.subscribePlan(subscribeDTO);
     }

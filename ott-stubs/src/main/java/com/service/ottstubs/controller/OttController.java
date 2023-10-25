@@ -19,7 +19,7 @@ public class OttController {
 
     @PostMapping("/stub")
     public String receiveStubDTO(@RequestBody StubDTO stubDTO) {
-        System.out.println("Received PlanDTO: " + stubDTO.getPlanDTO());
+        System.out.println("Received PlanDTO: " + stubDTO.getOtts().get(0).getOttName());
         System.out.println("Received UserDTO: " + stubDTO.getUserDTO());
         System.out.println("Received Members: " + stubDTO.getMembers());
         return "StubDTO received successfully!";
