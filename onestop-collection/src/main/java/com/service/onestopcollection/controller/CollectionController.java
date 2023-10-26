@@ -36,35 +36,26 @@ public class CollectionController {
     @Autowired
     private OttStubService ottStubService;
 
-    @GetMapping("/hello")
-    public String helloWorld() {
-        return "Hello World";
-    }
 
     @GetMapping("/user")
     public ResponseEntity<UserDTO> createFamilyDetails(@RequestHeader("Authorization") String token){
-        System.out.println("token is - " + token);
         UserDTO userDTO = userService.getUserDetails(token);
         return new ResponseEntity<>( userDTO, HttpStatus.OK);
     }
 
     @PostMapping("/payment")
     public ResponseEntity<String> receiveCollectionDTO(@RequestHeader("Authorization") String token, @RequestBody CollectionDTO collectionDTO) {
-        System.out.println("token is - " + token);
-        System.out.println("Received CollectionDTO:");
-        System.out.println("Subscription ID: " + collectionDTO.getSubscriptionId());
-        System.out.println("User ID: " + collectionDTO.getUserId());
-        System.out.println("Amount Collected: " + collectionDTO.getAmountCollected());
-        System.out.println("Bill ID: " + collectionDTO.getBillId());
 
         ottStubService.sendCollectionDTO(collectionDTO);
         collectionService.saveCollection(collectionDTO);
         ResponseEntity<String> response = billingService.updatePaymentStatus(collectionDTO);
         return new ResponseEntity<>(response.getBody(), response.getStatusCode());
+
     }
 
     @PostMapping("/update/status")
     public ResponseEntity<String> updateSubscriptionStatus(){
+
         ResponseEntity<String> response = billingService.updateStatus();
         return new ResponseEntity<>(response.getBody(), response.getStatusCode());
     }
@@ -74,7 +65,6 @@ public class CollectionController {
     @Scheduled(fixedDelay = 40000, initialDelay = 40000)
     public void taskFor14thAnd28th() {
         ResponseEntity<String> response = billingService.updateStatus();
-        //return new ResponseEntity<>(response.getBody(), response.getStatusCode());
         System.out.println("\n\nstatus updated successfully\n\n");
        System.out.println(response.getBody());
     }

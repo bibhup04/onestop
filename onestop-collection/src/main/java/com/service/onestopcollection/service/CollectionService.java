@@ -31,14 +31,4 @@ public class CollectionService {
         return collectionRepository.save(collection);
     }
 
-   
-    public Optional<Collection> getCollectionById(Long id) {
-        return collectionRepository.findById(id);
-    }
-
-  
-    public List<Collection> getAllCollections() {
-        return collectionRepository.findAll();
-    }
-
 }
