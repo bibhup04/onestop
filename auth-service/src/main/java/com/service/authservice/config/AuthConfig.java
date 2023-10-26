@@ -21,14 +21,14 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 
 
-import com.service.authservice.CorsConfig;
+// import com.service.authservice.CorsConfig;
 
 @Configuration
 @EnableWebSecurity
 public class AuthConfig {
 
-    @Autowired
-    private CorsConfig corsConfig;
+    // @Autowired
+    // private CorsConfig corsConfig;
 
     @Bean
     public UserDetailsService userDetailsService(){
@@ -40,9 +40,9 @@ public class AuthConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfig))
+                //.cors(cors -> cors.configurationSource(corsConfig))
                 .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/auth/register", "/auth/token", "/auth/userId").permitAll()
+                .requestMatchers("/auth/register", "/auth/token", "/auth/userId", "/auth/validate").permitAll()
                 .anyRequest().authenticated())
                 .logout(withDefaults())
                 .httpBasic(withDefaults())

@@ -24,7 +24,7 @@ import com.service.authservice.service.UserCredentialService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:4200")
+// @CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
     @Autowired
     private AuthService service;

@@ -9,6 +9,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -17,12 +20,24 @@ import com.service.onestopinvoice.DTO.InvoiceDTO;
 import com.service.onestopinvoice.DTO.NameAndPhone;
 import com.service.onestopinvoice.DTO.Ott;
 import com.service.onestopinvoice.feignclint.AppServiceClient;
+import com.service.onestopinvoice.repository.InvoiceRepository;
 import com.service.onestopinvoice.service.AppService;
+import com.service.onestopinvoice.service.InvoiceService;
+import com.service.onestopinvoice.service.PdfService;
 
 public class AppServiceJUnitTest {
 
     private AppService appService;
     private AppServiceClient appServiceClient;
+
+    @InjectMocks
+    private PdfService pdfService;
+
+    @Mock
+    private InvoiceDTO invoiceDTO;
+
+    @Mock
+    private GenerateInvoiceDTO generateInvoiceDTO;
 
     @BeforeEach
     public void setup() {
@@ -30,6 +45,8 @@ public class AppServiceJUnitTest {
         appService = new AppService(appServiceClient);
        // appService.setAppServiceClient(appServiceClient);
     }
+
+   
 
     @Test
     public void testGetInvoiceDetails() {
@@ -106,5 +123,7 @@ public class AppServiceJUnitTest {
         assertEquals(generateInvoiceDTO.getPlanId(), generateInvoiceDTO.getPlanId());
         assertEquals(generateInvoiceDTO.getUserId(), generateInvoiceDTO.getUserId());
     }
+
+  
     
 }

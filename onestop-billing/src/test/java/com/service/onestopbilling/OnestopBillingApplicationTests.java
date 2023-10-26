@@ -27,7 +27,7 @@ import java.lang.reflect.Field;
 
 import com.service.onestopbilling.controller.SubscribeController;
 import com.service.onestopbilling.dto.SubscribeDTO;
-
+import com.service.onestopbilling.dto.UserDTO;
 import com.service.onestopbilling.entity.CustomDateHandler;
 import com.service.onestopbilling.entity.Subscription;
 import com.service.onestopbilling.repository.BillingRepository;
@@ -72,43 +72,6 @@ class OnestopBillingApplicationTests {
     }
 
 
-	// @Test
-    // public void testAddProduct() {
-    //     SubscribeDTO  subscribeDTO = new SubscribeDTO();
-    //     subscribeDTO.setFamilyId(1L);
-    //     subscribeDTO.setUserId(2);
-    //     subscribeDTO.setPlanId(3);
-    //     subscribeDTO.setFinalPrice(99);
-
-	// 	Subscription mockSubscription = new Subscription();
-	// 	mockSubscription.setSubscriptionId(1L);
-	// 	mockSubscription.setFamilyId(1L);
-	// 	mockSubscription.setUserId(123456L);
-	// 	mockSubscription.setPlanId(789L);
-	// 	mockSubscription.setFinalPrice(99.99);
-	// 	mockSubscription.setEndDate(customDateHandler.getEndDate());
-	// 	mockSubscription.setStatus("ACTIVE");
-	// 	mockSubscription.setAutoRenewal(true);
-
-	// 	try {
-	// 		Field createdAtField = Subscription.class.getDeclaredField("createdAt");
-	// 		createdAtField.setAccessible(true);
-	// 		createdAtField.set(mockSubscription, new Date());
-	// 	} catch (NoSuchFieldException | IllegalAccessException e) {
-	// 		e.printStackTrace(); 
-	// 	}
-
-    //     ResponseEntity<String> expectedResponse = new ResponseEntity<>("plan subscribed successfully", HttpStatus.OK);
-
-    //     when(subscriptionService.saveSubscription(endDate, subscribeDTO)).thenReturn(mockSubscription);
-
-    //     ResponseEntity<String> actualResponse = subscribeController.subscribePlan(subscribeDTO);
-
-
-    //     assertEquals(expectedResponse.getStatusCode(), actualResponse.getStatusCode());
-    //     assertEquals(expectedResponse.getBody(), actualResponse.getBody());
-    // }
-
 
 	@Test
     public void testGetAllSubscriptions() {
@@ -138,6 +101,36 @@ class OnestopBillingApplicationTests {
             assertEquals(mockSubscription.getStatus(), responseSubscription.getStatus());
             assertEquals(mockSubscription.isAutoRenewal(), responseSubscription.isAutoRenewal());
         }
+    }
+
+
+    @Test
+    public void testUserDTO() {
+     
+        Long id = 1L;
+        String name = "John Doe";
+        String email = "johndoe@example.com";
+        String phoneNo = "1234567890";
+        String password = "password123";
+        String role = "user";
+        String status = "active";
+     
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(id);
+        userDTO.setName(name);
+        userDTO.setEmail(email);
+        userDTO.setPhoneNo(phoneNo);
+        userDTO.setPassword(password);
+        userDTO.setRole(role);
+        userDTO.setStatus(status);
+
+        assertEquals(id, userDTO.getId());
+        assertEquals(name, userDTO.getName());
+        assertEquals(email, userDTO.getEmail());
+        assertEquals(phoneNo, userDTO.getPhoneNo());
+        assertEquals(password, userDTO.getPassword());
+        assertEquals(role, userDTO.getRole());
+        assertEquals(status, userDTO.getStatus());
     }
     
 

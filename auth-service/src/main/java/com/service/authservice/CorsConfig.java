@@ -14,28 +14,28 @@ import jakarta.servlet.http.HttpServletRequest;
 
  
 
- @Configuration
+//  @Configuration
 
-public class CorsConfig implements CorsConfigurationSource {
+// public class CorsConfig implements CorsConfigurationSource {
 
  
 
-    @Override
+//     @Override
 
-    @Nullable
+//     @Nullable
 
-    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+//     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 
-        CorsConfiguration config = new CorsConfiguration();
+//         CorsConfiguration config = new CorsConfiguration();
 
-        config.addAllowedOrigin("*");
+//         config.addAllowedOrigin("*");
 
-        config.addAllowedMethod("*");
+//         config.addAllowedMethod("*");
 
-        config.addAllowedHeader("*");
+//         config.addAllowedHeader("*");
 
-        return config;
+//         return config;
 
-    }
+//     }
 
-}
+// }

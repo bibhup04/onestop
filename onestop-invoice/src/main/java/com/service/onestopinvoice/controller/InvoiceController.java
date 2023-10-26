@@ -57,29 +57,19 @@ public class InvoiceController {
 
      @GetMapping("/get/invoice")
     public ResponseEntity<List<Invoice>> createFamilyDetails(@RequestHeader("Authorization") String token){
-        System.out.println("token - " + token);
         UserDTO userDTO = userService.getUserDetails(token);
         List<Invoice> invoices = invoiceService.getAllInvoicesByUserId(userDTO.getId());
         return new ResponseEntity<>( invoices, HttpStatus.OK);
     }
-    
 
 
     @PostMapping("/generate-invoice")
     public ResponseEntity<String> generateInvoice(@RequestBody List<GenerateInvoiceDTO> generateInvoiceDTOList) {
-    for (GenerateInvoiceDTO generateInvoiceDTO : generateInvoiceDTOList) {
-        System.out.println("Received GenerateInvoiceDTO from postman:");
-        System.out.println("Bill Id: " + generateInvoiceDTO.getBillId());
-        System.out.println("User Id: " + generateInvoiceDTO.getUserId());
-        System.out.println("Plan Id: " + generateInvoiceDTO.getPlanId());
-        System.out.println("Final Price: " + generateInvoiceDTO.getFinalPrice());
-    }
 
     List<InvoiceDTO> invoiceDTOs = appService.getInvoiceDetails(generateInvoiceDTOList);
 
     if (invoiceDTOs != null) {
         for (int i = 0; i < invoiceDTOs.size(); i ++) {
-            System.out.println("plan description - " + invoiceDTOs.get(i).getPlanDescription());
             String pdfFilePath = pdfService.WriteInvoice(invoiceDTOs.get(i), generateInvoiceDTOList.get(i));
             invoiceService.addInvoice(invoiceDTOs.get(i), generateInvoiceDTOList.get(i), pdfFilePath);
 
@@ -109,10 +99,6 @@ public class InvoiceController {
                 generateInvoiceDTO.setBillId(32);
                 generateInvoiceDTO.setFinalPrice(500.34);
                 
-                System.out.println("InvoiceDTO - plan desc: " + invoiceDTO.getPlanDescription());
-                System.out.println("InvoiceDTO - name and phone: " + invoiceDTO.getNameAndPhones());
-                System.out.println("InvoiceDTO - Plan Id: " + invoiceDTO.getPlanId());
-                System.out.println("InvoiceDTO - emailId: " + invoiceDTO.getEmailId());
                 
                 String pdfFilePath = pdfService.WriteInvoice(invoiceDTO,  generateInvoiceDTO);
                 
@@ -129,37 +115,13 @@ public class InvoiceController {
         } else {
             System.out.println("InvoiceDTO list is null.");
         }
-
-        //pdfService.WriteInvoice();
-
         return new ResponseEntity<>( "Bill and Invoice Generated" , HttpStatus.OK);
     }
-
-    //  @GetMapping("/generate")
-    // public ResponseEntity<InputStreamResource> getAllSubscriptions() {
-
-    //     ByteArrayInputStream pdf = pdfService.createPdf();
-
-    //     HttpHeaders httpHeaders = new HttpHeaders();
-
-    //     httpHeaders.add("Content-Disposition", "inline;file=lcwd.pdf");
-
-
-
-    //     return ResponseEntity.ok()
-    //         .headers(httpHeaders)
-    //         .contentType(MediaType.APPLICATION_PDF)
-    //         .body(new InputStreamResource(pdf));
-    // }
-
-   
 
     @PostMapping("/displayPdf")
     public ResponseEntity<InputStreamResource> displayPdf(@RequestBody InvoiceIdDTO invoiceIdDTO) throws IOException {
         Invoice invoice = invoiceService.getInvoiceById(invoiceIdDTO.getInvoiceId()).get();
         
-        // String currentDirectory = System.getProperty("user.dir");
-        // String pdfFilePath = currentDirectory + "/invoice/customer_details.pdf";
         String pdfFilePath = invoice.getPath();
         Path path = Paths.get(pdfFilePath);
         File file = path.toFile();
@@ -171,4 +133,6 @@ public class InvoiceController {
                 .contentType(MediaType.parseMediaType("application/pdf"))
                 .body(resource);
     }
+
+    
 }
