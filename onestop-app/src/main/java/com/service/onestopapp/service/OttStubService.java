@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.service.onestopapp.dto.NameAndPhone;
-import com.service.onestopapp.dto.PlanDTO;
+
 import com.service.onestopapp.dto.StubDTO;
 import com.service.onestopapp.dto.UserDTO;
 import com.service.onestopapp.entity.Family;
-import com.service.onestopapp.entity.Member;
+
 import com.service.onestopapp.entity.Ott;
 import com.service.onestopapp.entity.Plan;
 import com.service.onestopapp.feignclint.OttStubServiceClient;

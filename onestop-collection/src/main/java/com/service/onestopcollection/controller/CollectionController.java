@@ -17,6 +17,7 @@ import com.service.onestopcollection.DTO.CollectionDTO;
 import com.service.onestopcollection.DTO.UserDTO;
 import com.service.onestopcollection.service.BillingService;
 import com.service.onestopcollection.service.CollectionService;
+import com.service.onestopcollection.service.OttStubService;
 import com.service.onestopcollection.service.UserService;
 
 @RestController
@@ -31,6 +32,9 @@ public class CollectionController {
 
     @Autowired
     private BillingService billingService;
+
+    @Autowired
+    private OttStubService ottStubService;
 
     @GetMapping("/hello")
     public String helloWorld() {
@@ -53,6 +57,7 @@ public class CollectionController {
         System.out.println("Amount Collected: " + collectionDTO.getAmountCollected());
         System.out.println("Bill ID: " + collectionDTO.getBillId());
 
+        ottStubService.sendCollectionDTO(collectionDTO);
         collectionService.saveCollection(collectionDTO);
         ResponseEntity<String> response = billingService.updatePaymentStatus(collectionDTO);
         return new ResponseEntity<>(response.getBody(), response.getStatusCode());
