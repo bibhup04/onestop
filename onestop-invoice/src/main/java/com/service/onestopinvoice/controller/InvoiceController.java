@@ -111,6 +111,7 @@ public class InvoiceController {
                 generateInvoiceDTO.setFinalPrice(500.34);
                 
                 
+                
                 String pdfFilePath = pdfService.WriteInvoice(invoiceDTO,  generateInvoiceDTO);
                 
                 //  try {

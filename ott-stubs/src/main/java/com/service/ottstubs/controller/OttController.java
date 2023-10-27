@@ -26,17 +26,13 @@ public class OttController {
 
     @PostMapping("/stub")
     public String receiveStubDTO(@RequestBody StubDTO stubDTO) {
-        System.out.println("Received PlanDTO: " + stubDTO.getOtts().get(0).getOttName());
-        System.out.println("Received UserDTO: " + stubDTO.getUserDTO());
-        System.out.println("Received Members: " + stubDTO.getMembers());
+
         return "StubDTO received successfully!";
     }
 
     @PostMapping("/collection")
     public ResponseEntity<String> receiveCollectionDTO(@RequestBody CollectionDTO collectionDTO) {
         
-        System.out.println("user id - " + collectionDTO.getUserId());
-        System.out.println("Collected amount- " + collectionDTO.getAmountCollected());
 
         return new ResponseEntity<>("Amount collected", HttpStatus.OK);
    
