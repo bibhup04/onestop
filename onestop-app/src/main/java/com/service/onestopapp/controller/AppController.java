@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.service.onestopapp.dto.GenerateInvoiceDTO;
 import com.service.onestopapp.dto.InvoiceDTO;
-import com.service.onestopapp.dto.NameAndPhone;
 import com.service.onestopapp.dto.NewMemberDTO;
 import com.service.onestopapp.dto.PlanDTO;
 import com.service.onestopapp.dto.PlanIdDTO;
@@ -32,12 +31,10 @@ import com.service.onestopapp.service.MemberService;
 import com.service.onestopapp.service.PlanService;
 import com.service.onestopapp.service.SubscribePlanService;
 import com.service.onestopapp.service.UserService;
-import com.service.onestopapp.util.JwtUtil;
 
 import feign.FeignException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,8 +48,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @Tag(name = "App Controller", description = "allow user to login and register")
 public class AppController {
 
-    private JwtUtil jwtUtil;
-
     private final PlanService planService;
     private final UserService userService;
     private final FamilyService familyService;
@@ -63,9 +58,8 @@ public class AppController {
     private InvoiceService invoiceService;
 
     @Autowired
-    public AppController(PlanService planService, JwtUtil jwtUtil, UserService userService, FamilyService familyService, MemberService memberService, SubscribePlanService subscribePlanService) {
+    public AppController(PlanService planService,  UserService userService, FamilyService familyService, MemberService memberService, SubscribePlanService subscribePlanService) {
         this.planService = planService;
-        this.jwtUtil = jwtUtil;
         this.userService = userService;
         this.familyService = familyService;
         this.memberService = memberService;
@@ -112,7 +106,7 @@ public class AppController {
         return planService.getAllPlansWithOtt();
     }
 
-    @Operation(summary = "User Details", description = "Fetch token from header, send token to Auth-service and get user details.")
+    @Operation(summary = "User Details", description = "Fetch token from header, send token to Auth-service and get user details and creates a entry in family table if there is not netry in for that user.")
     @GetMapping("/user")
     public ResponseEntity<UserDTO> createFamilyDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);

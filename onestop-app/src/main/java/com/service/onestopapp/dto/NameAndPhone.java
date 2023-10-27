@@ -1,11 +1,12 @@
 package com.service.onestopapp.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
-@NoArgsConstructor
+import lombok.Setter;
+
+@Getter
+@Setter
 @AllArgsConstructor
 public class NameAndPhone {
     private String name;

@@ -4,9 +4,12 @@ import java.util.List;
 
 import com.service.onestopapp.entity.Ott;
 
-import lombok.Data;
 
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PlanDTO {
     private Long planId;
     private Long billingCycle;

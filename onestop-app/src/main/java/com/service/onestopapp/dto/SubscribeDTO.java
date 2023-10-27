@@ -1,12 +1,12 @@
 package com.service.onestopapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+import lombok.Getter;
+
+import lombok.Setter;
+
+@Getter
+@Setter
 public class SubscribeDTO {
     private Long familyId;
     private long userId;
