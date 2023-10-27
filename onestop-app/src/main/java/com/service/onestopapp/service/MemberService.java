@@ -25,6 +25,10 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
+    
+    /** 
+     * @return List<Member>
+     */
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
     }

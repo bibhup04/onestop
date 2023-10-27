@@ -63,6 +63,10 @@ class SubscribeControllerTest {
     @MockBean
     private SubscriptionRepository subscriptionRepository;
 
+    
+    /** 
+     * @throws Exception
+     */
     @Test
     void allcontacts() throws Exception {
         MvcResult mvcResult = mockMvc.perform(

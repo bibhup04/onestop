@@ -30,6 +30,13 @@ public class OttStubService {
         this.ottStubServiceClient = ottStubServiceClient;
     }
 
+    
+    /** 
+     * @param plan
+     * @param userDTO
+     * @param family
+     * @return String
+     */
     public String sendStubDTO(Plan plan, UserDTO userDTO, Family family) {
         List<Ott> ott = ottsPerPlanService.getOttsByPlan(plan);
         List<NameAndPhone> nameAndPhones = memberService.getMember(family).getMembers();

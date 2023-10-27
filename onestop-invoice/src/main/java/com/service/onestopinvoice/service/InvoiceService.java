@@ -17,6 +17,11 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
+    
+    /** 
+     * @param id
+     * @return Optional<Invoice>
+     */
     public Optional<Invoice> getInvoiceById(Long id) {
         return invoiceRepository.findById(id);
     }

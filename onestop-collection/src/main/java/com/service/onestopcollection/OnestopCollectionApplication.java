@@ -12,6 +12,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class OnestopCollectionApplication {
 
+	
+	/** 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(OnestopCollectionApplication.class, args);
 	}

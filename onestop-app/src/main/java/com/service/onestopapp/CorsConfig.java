@@ -1,41 +1,41 @@
-package com.service.onestopapp;
+// package com.service.onestopapp;
 
-import org.springframework.context.annotation.Configuration;
+// import org.springframework.context.annotation.Configuration;
 
-import org.springframework.lang.Nullable;
+// import org.springframework.lang.Nullable;
 
-import org.springframework.web.cors.CorsConfiguration;
+// import org.springframework.web.cors.CorsConfiguration;
 
-import org.springframework.web.cors.CorsConfigurationSource;
-
- 
-
-import jakarta.servlet.http.HttpServletRequest;
+// import org.springframework.web.cors.CorsConfigurationSource;
 
  
 
-//@Configuration
-
-public class CorsConfig implements CorsConfigurationSource {
+// import jakarta.servlet.http.HttpServletRequest;
 
  
 
-    @Override
+// //@Configuration
 
-    @Nullable
+// public class CorsConfig implements CorsConfigurationSource {
 
-    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+ 
 
-        CorsConfiguration config = new CorsConfiguration();
+//     @Override
 
-        config.addAllowedOrigin("*");
+//     @Nullable
 
-        config.addAllowedMethod("*");
+//     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 
-        config.addAllowedHeader("*");
+//         CorsConfiguration config = new CorsConfiguration();
 
-        return config;
+//         config.addAllowedOrigin("*");
 
-    }
+//         config.addAllowedMethod("*");
 
-}
+//         config.addAllowedHeader("*");
+
+//         return config;
+
+//     }
+
+// }

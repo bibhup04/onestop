@@ -8,6 +8,10 @@ import lombok.Data;
 public class NewMemberDTO {
     private List<NameAndPhone> members;
 
+    
+    /** 
+     * @param newMembers
+     */
     public void addMembers(List<NameAndPhone> newMembers) {
         this.members.addAll(newMembers);
     }

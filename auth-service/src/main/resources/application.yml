@@ -24,3 +24,8 @@ eureka:
 
 server:
   port: 9898
+
+# springdoc:
+#   packagesToScan: package com.service.authservice.controller
+#   pathsToMatch: /auth/**
+

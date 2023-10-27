@@ -19,6 +19,10 @@ public class AllOttPlanService {
         this.allOttPlanRepository = allOttPlanRepository;
     }
 
+    
+    /** 
+     * @return List<AllOttPlan>
+     */
     public List<AllOttPlan> getAllOttPlans() {
         return allOttPlanRepository.findAll();
     }

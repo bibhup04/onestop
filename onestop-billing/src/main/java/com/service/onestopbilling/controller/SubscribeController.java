@@ -49,6 +49,11 @@ public class SubscribeController {
     }
 
 
+    
+    /** 
+     * @param subscribeDTO
+     * @return ResponseEntity<String>
+     */
     @PostMapping("/plan")
     public ResponseEntity<String> subscribePlan(@RequestBody SubscribeDTO subscribeDTO) {
         boolean subscribed = subscriptionService.isSubscriptionPresentForUser(subscribeDTO.getUserId());

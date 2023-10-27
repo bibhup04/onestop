@@ -15,6 +15,10 @@ import com.service.ottstubs.DTO.StubDTO;
 @RequestMapping("/ott")
 public class OttController {
 
+    
+    /** 
+     * @return String
+     */
     @GetMapping("/hello")
     public String helloWorld() {
         return "Hello World";

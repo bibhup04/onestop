@@ -37,6 +37,11 @@ public class CollectionController {
     private OttStubService ottStubService;
 
 
+    
+    /** 
+     * @param token
+     * @return ResponseEntity<UserDTO>
+     */
     @GetMapping("/user")
     public ResponseEntity<UserDTO> createFamilyDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);

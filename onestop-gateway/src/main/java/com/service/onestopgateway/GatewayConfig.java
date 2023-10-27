@@ -19,6 +19,10 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class GatewayConfig {
 
+    
+    /** 
+     * @return WebFilter
+     */
     @Bean
     public WebFilter corsFilter() {
         return (ServerWebExchange ctx, WebFilterChain chain) -> {

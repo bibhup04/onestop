@@ -15,6 +15,11 @@ public class UserService {
     @Autowired
     private AuthServiceClient authServiceClient;
 
+    
+    /** 
+     * @param token
+     * @return UserDTO
+     */
     public UserDTO getUserDetails(String token) {
         ResponseEntity<UserDTO> responseEntity = authServiceClient.getUserDetails(token);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {

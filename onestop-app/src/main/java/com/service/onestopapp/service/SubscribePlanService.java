@@ -24,6 +24,13 @@ public class SubscribePlanService {
         this.ottStubService = ottStubService;
     }
 
+    
+    /** 
+     * @param planId
+     * @param userDTO
+     * @param family
+     * @return ResponseEntity<String>
+     */
     public ResponseEntity<String> subscribePlan(long planId, UserDTO userDTO, Family family) {
         SubscribeDTO subscribeDTO = new SubscribeDTO(); 
 

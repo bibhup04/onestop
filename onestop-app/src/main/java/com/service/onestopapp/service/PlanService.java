@@ -24,6 +24,10 @@ public class PlanService {
         this.ottsPerPlanService = ottsPerPlanService;
     }
 
+    
+    /** 
+     * @return List<Plan>
+     */
     public List<Plan> getAllPlans() {
         return plansRepository.findAll();
     }

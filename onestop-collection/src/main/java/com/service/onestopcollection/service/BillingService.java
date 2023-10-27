@@ -17,6 +17,11 @@ public class BillingService {
         this.billingServiceClient = billingServiceClient;
     }
 
+    
+    /** 
+     * @param collectionDTO
+     * @return ResponseEntity<String>
+     */
     public ResponseEntity<String> updatePaymentStatus(CollectionDTO collectionDTO) {
         return billingServiceClient.receiveCollectionDTO(collectionDTO);
     }

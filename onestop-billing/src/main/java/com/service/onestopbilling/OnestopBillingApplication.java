@@ -12,6 +12,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class OnestopBillingApplication {
 
+	
+	/** 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(OnestopBillingApplication.class, args);
 	}

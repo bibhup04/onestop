@@ -69,6 +69,11 @@ public class SubscriptionIntegratinTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
+    
+    /** 
+     * @param path
+     * @return String
+     */
     private String createURLWithPort(String path) {
         return "http://localhost:" + port + "/subscribe" + path;
     }

@@ -17,6 +17,10 @@ public class UserCredentialService {
     @Autowired
     private UserCredentialRepository userCredentialRepository;
 
+    
+    /** 
+     * @return List<UserCredential>
+     */
     public List<UserCredential> getAllUserCredentials() {
     return StreamSupport.stream(userCredentialRepository.findAll().spliterator(), false)
         .collect(Collectors.toList());

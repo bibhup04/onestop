@@ -6,10 +6,13 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+
 
 import com.service.onestopgateway.util.JwtUtil;
 
+/**
+ * This class represents an authentication filter for handling incoming requests and validating their authenticity.
+ */
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
@@ -21,10 +24,20 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Autowired
     private JwtUtil jwtUtil;
 
+      /**
+     * Constructor for the AuthenticationFilter class.
+     */
     public AuthenticationFilter() {
         super(Config.class);
     }
 
+
+    /**
+     * Applies the authentication filter to the incoming request.
+     *
+     * @param config   The configuration for the filter.
+     * @return         The filtered gateway for the incoming request.
+     */
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
@@ -52,6 +65,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         });
     }
 
+    
+    /**
+     * Configuration class for the AuthenticationFilter.
+     */
     public static class Config {
 
     }

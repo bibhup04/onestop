@@ -20,6 +20,11 @@ public class CollectionService {
         this.collectionRepository = collectionRepository;
     }
 
+    
+    /** 
+     * @param collectionDTO
+     * @return Collection
+     */
     // Method to save a collection entry
     public Collection saveCollection(CollectionDTO collectionDTO) {
         Collection collection = new Collection();

@@ -27,6 +27,11 @@ public class UpdateController {
     @Autowired
     private SubscriptionService subscriptionService;
 
+    
+    /** 
+     * @param collectionDTO
+     * @return ResponseEntity<String>
+     */
     @PostMapping("/update/payment")
     public ResponseEntity<String> receiveCollectionDTO(@RequestBody CollectionDTO collectionDTO) {
 

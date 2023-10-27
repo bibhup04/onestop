@@ -19,6 +19,10 @@ public class FeatureService {
         this.featureRepository = featureRepository;
     }
 
+    
+    /** 
+     * @return List<Feature>
+     */
     public List<Feature> getAllFeatures() {
         return featureRepository.findAll();
     }

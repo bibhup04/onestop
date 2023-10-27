@@ -12,6 +12,11 @@ import java.util.Map;
 public class RestaurantOrderDAO {
 
 
+    
+    /** 
+     * @param orderId
+     * @return OrderResponseDTO
+     */
     public OrderResponseDTO getOrders(String orderId) {
         return generateRandomOrders().get(orderId);
     }

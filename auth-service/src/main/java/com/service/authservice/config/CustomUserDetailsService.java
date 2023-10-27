@@ -18,6 +18,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserCredentialRepository repository;
 
+    
+    /** 
+     * @param username
+     * @return UserDetails
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserCredential> credential = repository.findByName(username);

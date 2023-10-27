@@ -66,6 +66,12 @@ public class AppController {
     }
 
 
+    
+    /** 
+     * @param token
+     * @param planIdDTO
+     * @return ResponseEntity<String>
+     */
     @PostMapping("/plan/buy")
     public ResponseEntity<String> buyPlan(@RequestHeader("Authorization") String token, @RequestBody PlanIdDTO planIdDTO) {
         try {

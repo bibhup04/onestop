@@ -22,6 +22,10 @@ public class FamilyService {
         this.memberService = memberService;
     }
 
+    
+    /** 
+     * @return List<Family>
+     */
     public List<Family> getAllFamilies() {
         return familyRepository.findAll();
     }

@@ -21,6 +21,12 @@ public class PdfService {
 
   PDDocument invc;
 
+  
+  /** 
+   * @param invoiceDTO
+   * @param generateInvoiceDTO
+   * @return String
+   */
   public String WriteInvoice(InvoiceDTO invoiceDTO, GenerateInvoiceDTO generateInvoiceDTO) {
     PDDocument invc = new PDDocument();
     PDPage mypage = new PDPage();

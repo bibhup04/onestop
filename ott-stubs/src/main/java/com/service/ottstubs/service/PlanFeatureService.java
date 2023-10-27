@@ -20,6 +20,10 @@ public class PlanFeatureService {
         this.planFeatureRepository = planFeatureRepository;
     }
 
+    
+    /** 
+     * @return List<PlanFeature>
+     */
     public List<PlanFeature> getAllPlanFeatures() {
         return planFeatureRepository.findAll();
     }

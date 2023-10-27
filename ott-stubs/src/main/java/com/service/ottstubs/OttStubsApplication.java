@@ -10,6 +10,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 public class OttStubsApplication {
 
+	
+	/** 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(OttStubsApplication.class, args);
 	}

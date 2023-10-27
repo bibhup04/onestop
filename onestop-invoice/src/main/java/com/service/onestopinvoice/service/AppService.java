@@ -23,6 +23,11 @@ public class AppService {
 
    
 
+    
+    /** 
+     * @param generateInvoiceDTOs
+     * @return List<InvoiceDTO>
+     */
     public List<InvoiceDTO> getInvoiceDetails(List<GenerateInvoiceDTO> generateInvoiceDTOs) {
         ResponseEntity<List<InvoiceDTO>> responseEntity = appServiceClient.generateInvoice(generateInvoiceDTOs);
         if (responseEntity.getStatusCode() == HttpStatus.OK) {

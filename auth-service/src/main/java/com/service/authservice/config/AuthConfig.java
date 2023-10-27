@@ -27,6 +27,10 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 @EnableWebSecurity
 public class AuthConfig {
 
+    
+    /** 
+     * @return UserDetailsService
+     */
     // @Autowired
     // private CorsConfig corsConfig;
 
@@ -43,6 +47,7 @@ public class AuthConfig {
                 //.cors(cors -> cors.configurationSource(corsConfig))
                 .authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/auth/register", "/auth/token", "/auth/userId", "/auth/validate").permitAll()
+                .requestMatchers("/v3/api-docs").permitAll()
                 .anyRequest().authenticated())
                 .logout(withDefaults())
                 .httpBasic(withDefaults())

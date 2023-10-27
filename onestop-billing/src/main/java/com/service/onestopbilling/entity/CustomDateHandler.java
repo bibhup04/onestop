@@ -23,6 +23,10 @@ public class CustomDateHandler {
         }
     }
 
+    
+    /** 
+     * @param endDateString
+     */
     public void setEndDate(String endDateString) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         try {

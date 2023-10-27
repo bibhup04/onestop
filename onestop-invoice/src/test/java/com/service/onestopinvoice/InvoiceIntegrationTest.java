@@ -62,6 +62,11 @@ public class InvoiceIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
+    
+    /** 
+     * @param path
+     * @return String
+     */
     private String createURLWithPort(String path) {
         return "http://localhost:" + port + "/invoice" + path;
     }

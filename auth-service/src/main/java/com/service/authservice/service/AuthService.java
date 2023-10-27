@@ -20,6 +20,11 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
+    
+    /** 
+     * @param credential
+     * @return String
+     */
     public String saveUser(UserCredential credential) {
         credential.setPassword(passwordEncoder.encode(credential.getPassword()));
         credential.setRole("USER");

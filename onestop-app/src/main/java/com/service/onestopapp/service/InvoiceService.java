@@ -27,6 +27,11 @@ public class InvoiceService {
     @Autowired
     private OttsPerPlanService ottsPerPlanService;
 
+    
+    /** 
+     * @param generateInvoiceDTO
+     * @return InvoiceDTO
+     */
     public InvoiceDTO generateData(GenerateInvoiceDTO generateInvoiceDTO){
 
         Plan plan = planService.getPlansById(generateInvoiceDTO.getPlanId()).get();

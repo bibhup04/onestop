@@ -14,6 +14,11 @@ public class OttStubService {
         this.ottStubServiceClient = ottStubServiceClient;
     }
 
+    
+    /** 
+     * @param collectionDTO
+     * @return String
+     */
     public String sendCollectionDTO(CollectionDTO collectionDTO) {
         
 

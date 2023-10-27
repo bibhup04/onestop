@@ -29,6 +29,10 @@ public class BillingService {
         this.invoiceService = invoiceService;
     }
 
+    
+    /** 
+     * @return List<Billing>
+     */
     public List<Billing> getAllBillings() {
         return billingRepository.findAll();
     }

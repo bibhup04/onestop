@@ -19,6 +19,10 @@ public class OttService {
         this.ottRepository = ottRepository;
     }
 
+    
+    /** 
+     * @return List<Ott>
+     */
     public List<Ott> getAllOtts() {
         return ottRepository.findAll();
     }

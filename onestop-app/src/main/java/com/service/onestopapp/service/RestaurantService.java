@@ -13,6 +13,10 @@ public class RestaurantService {
     @Autowired
     private RestaurantOrderDAO orderDAO;
 
+    
+    /** 
+     * @return String
+     */
     public String greeting() {
         return "Welcome to Swiggy Restaurant service";
     }

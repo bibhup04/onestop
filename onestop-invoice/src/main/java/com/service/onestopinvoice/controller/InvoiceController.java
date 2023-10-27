@@ -55,6 +55,11 @@ public class InvoiceController {
     private EmailSenderService emailSenderService;
 
 
+     
+     /** 
+      * @param token
+      * @return ResponseEntity<List<Invoice>>
+      */
      @GetMapping("/get/invoice")
     public ResponseEntity<List<Invoice>> createFamilyDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);

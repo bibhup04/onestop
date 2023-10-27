@@ -22,9 +22,17 @@ import com.service.authservice.service.AuthService;
 import com.service.authservice.service.JwtService;
 import com.service.authservice.service.UserCredentialService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/auth")
 // @CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Auth controller", description = "allow user to login and register")
 public class AuthController {
     @Autowired
     private AuthService service;
@@ -38,12 +46,28 @@ public class AuthController {
     @Autowired
     private UserCredentialService userCredentialService;
 
+    
+    /** 
+     * @param user
+     * @return String
+     */
+    @Operation(summary = "Register user", description = "User can register by providing user credentials.")
     @PostMapping("/register")
     public String addNewUser(@RequestBody UserCredential user) {
         return service.saveUser(user);
     }
 
     @PostMapping("/token")
+    @Operation(summary = "Login user", description = "User can login by providing username and password in authRequest.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successful login",
+                content = { @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = TokenDTO.class)) }),
+        @ApiResponse(responseCode = "401", description = "Invalid access",
+                content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error",
+                content = @Content)
+    })
     public TokenDTO getToken(@RequestBody AuthRequest authRequest) {
          System.out.println(" inside this-------------");
          System.out.println("username - " + authRequest.getUsername() + " password - " + authRequest.getPassword());
@@ -58,11 +82,11 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/validate")
-    public String validateToken(@RequestParam("token") String token) {
-        service.validateToken(token);
-        return "Token is valid";
-    }
+    // @GetMapping("/validate")
+    // public String validateToken(@RequestParam("token") String token) {
+    //     service.validateToken(token);
+    //     return "Token is valid";
+    // }
 
     @GetMapping("/userId")
     public ResponseEntity<UserCredential> home(@RequestHeader("Authorization") String token) {

@@ -43,6 +43,11 @@ public class OnestopCollectionIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
+    
+    /** 
+     * @param path
+     * @return String
+     */
     private String createURLWithPort(String path) {
         return "http://localhost:" + port + "/collection" + path;
     }

@@ -21,6 +21,10 @@ public class SubscriptionService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
+    
+    /** 
+     * @return List<Subscription>
+     */
     public List<Subscription> getAllSubscriptions() {
         return subscriptionRepository.findAll();
     }

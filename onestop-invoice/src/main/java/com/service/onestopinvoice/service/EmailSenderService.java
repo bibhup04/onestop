@@ -18,6 +18,14 @@ public class EmailSenderService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    
+    /** 
+     * @param toEmail
+     * @param body
+     * @param subject
+     * @param attachment
+     * @throws MessagingException
+     */
     public void sendMailWithAttachment(String toEmail,
                                        String body,
                                        String subject,
