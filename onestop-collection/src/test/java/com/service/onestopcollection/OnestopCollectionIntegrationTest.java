@@ -68,7 +68,4 @@ public class OnestopCollectionIntegrationTest {
         assertNotNull(userDTO);
         assertEquals("abc", userDTO.getName());
     }
-
-
-    
 }

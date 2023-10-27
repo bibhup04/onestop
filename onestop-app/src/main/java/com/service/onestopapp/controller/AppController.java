@@ -35,6 +35,12 @@ import com.service.onestopapp.service.UserService;
 import com.service.onestopapp.util.JwtUtil;
 
 import feign.FeignException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.RequestHeader;
 
@@ -42,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @RestController
 @RequestMapping("/app")
 //@CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "App Controller", description = "allow user to login and register")
 public class AppController {
 
     private JwtUtil jwtUtil;
@@ -72,6 +79,17 @@ public class AppController {
      * @param planIdDTO
      * @return ResponseEntity<String>
      */
+    @Operation(summary = "Buy a Plan", description = "Allows users to buy a plan (Identifies user from token)")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Plan Subscribed successfully"),
+        @ApiResponse(responseCode = "401", description = "Invalid access(wrong token)",
+                content = @Content),
+        @ApiResponse(responseCode = "400", description = "When no. of members in one account is greater than the maximum limit of plan.",
+                content = @Content),
+        @ApiResponse(responseCode = "400", description = "Bad Request",
+                content = @Content(mediaType = "text/plain"))
+        
+    })
     @PostMapping("/plan/buy")
     public ResponseEntity<String> buyPlan(@RequestHeader("Authorization") String token, @RequestBody PlanIdDTO planIdDTO) {
         try {
@@ -88,11 +106,13 @@ public class AppController {
     }
 
 
+    @Operation(summary = "Home Page", description = "This endpoint don't dont require authentication. It displays the homepage directly.")
     @GetMapping("/home")
     public List<PlanDTO> getPlans() {
         return planService.getAllPlansWithOtt();
     }
 
+    @Operation(summary = "User Details", description = "Fetch token from header, send token to Auth-service and get user details.")
     @GetMapping("/user")
     public ResponseEntity<UserDTO> createFamilyDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);
@@ -101,10 +121,10 @@ public class AppController {
     }
 
 
+    @Operation(summary = "Add Members", description = "Identify the user from token and add members to the family account of the user.")
     @PostMapping("/addMember")
     public ResponseEntity<String> addFamilyMember(@RequestHeader("Authorization") String token,@RequestBody NewMemberDTO newMemberDTO){
-        
-        System.out.println("token isn " + token);
+
         UserDTO userDTO = userService.getUserDetails(token);
         System.out.println("New Member DTO: " + newMemberDTO.getMembers());
         ResponseEntity<Subscription> responseEntity  = subscribePlanService.getSubscriptionDetails(token);
@@ -125,19 +145,12 @@ public class AppController {
             return new ResponseEntity<>("Number of members is greater than maximum limit", HttpStatus.BAD_REQUEST);
         }
         
-     
-        System.out.println("familyId is " + family.getFamilyId());
         memberService.addMember(family, newMemberDTO);
-        System.out.println("family members added");
-
-        List<NameAndPhone> members = newMemberDTO.getMembers();
-        for (NameAndPhone member : members) {
-            System.out.println("Name: " + member.getName() + ", Phone Number: " + member.getPhoneNo());
-        }
 
         return new ResponseEntity<>( "Family members added" + newMemberDTO.getMembers(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Display Members", description = "Identify the user from token and add members to the family account of the user.")
     @GetMapping("/getMember")
     public ResponseEntity<NewMemberDTO> getAllMember(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);
@@ -147,38 +160,15 @@ public class AppController {
     }
 
 
+    @Operation(summary = "Invoice Details", description = "Recieves a list of generateInvoiceDTOs and returns a list of InvoiceDTO with all the details to generate Invoice.")
     @PostMapping("/invoice-details")
     public ResponseEntity<List<InvoiceDTO>> generateInvoice(@RequestBody List<GenerateInvoiceDTO> generateInvoiceDTOs) {
         List<InvoiceDTO> invoiceDTOs = new ArrayList<>();
         for (GenerateInvoiceDTO generateInvoiceDTO : generateInvoiceDTOs) {
-            System.out.println("Received GenerateInvoiceDTO:");
-            System.out.println("Bill Id: " + generateInvoiceDTO.getBillId());
-            System.out.println("User Id: " + generateInvoiceDTO.getUserId());
-            System.out.println("Plan Id: " + generateInvoiceDTO.getPlanId());
-            System.out.println("Final Price: " + generateInvoiceDTO.getFinalPrice());
-
-            InvoiceDTO invoiceDTO = invoiceService.generateData(generateInvoiceDTO);
+             InvoiceDTO invoiceDTO = invoiceService.generateData(generateInvoiceDTO);
             invoiceDTOs.add(invoiceDTO);
         }
         return new ResponseEntity<>(invoiceDTOs, HttpStatus.OK);
     }
-
-
-    @GetMapping("/home/user")
-    public ResponseEntity<String> home(@RequestHeader("Authorization") String token) {
-        if (token != null && token.startsWith("Bearer ")) {
-            String jwtToken = token.substring(7); // Remove "Bearer " from the token string
-            System.out.println(jwtToken);
-            jwtUtil.decodeToken(jwtToken);
-            String name = ""; // Here, you should extract the name from the decoded token.
-            System.out.println("name is - " + name);
-            return new ResponseEntity<>("You are in home, " + name, HttpStatus.OK);
-        } else {
-            // Handle the case when the token is not in the expected format
-            return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
     
 }

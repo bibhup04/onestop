@@ -27,8 +27,12 @@ import com.service.onestopbilling.service.InvoiceService;
 import com.service.onestopbilling.service.SubscriptionService;
 import com.service.onestopbilling.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/subscribe")
+@Tag(name = "Subscription controller", description = "It keeps record of subscription and create bills")
 public class SubscribeController {
    CustomDateHandler customDateHandler = new CustomDateHandler();
 
@@ -54,6 +58,7 @@ public class SubscribeController {
      * @param subscribeDTO
      * @return ResponseEntity<String>
      */
+    @Operation(summary = "Subscribe plans", description = "Recieves user and plan details and add those details to Database.")
     @PostMapping("/plan")
     public ResponseEntity<String> subscribePlan(@RequestBody SubscribeDTO subscribeDTO) {
         boolean subscribed = subscriptionService.isSubscriptionPresentForUser(subscribeDTO.getUserId());
@@ -85,6 +90,7 @@ public class SubscribeController {
         System.out.println("\n\nbill generated and end date updated\n\n");
     }
 
+    @Operation(summary = "Generate Bills", description = "This method generates a bill when a user ends subscription manually.")
     @GetMapping("/bill")
     public ResponseEntity<List<Billing>> generateNewBill() {
         List<Billing> bills = new ArrayList<>();
@@ -95,6 +101,7 @@ public class SubscribeController {
         return ResponseEntity.ok().body(bills);
     }
 
+    @Operation(summary = "Create Invoice", description = "This method sends generateInvoiceDTO to invoice service to generate a invoice.")
     @PostMapping("/create-invoice")
     public ResponseEntity<String> createInvoice(@RequestBody List<GenerateInvoiceDTO> generateInvoiceDTO) {
         System.out.println("inside billing controller.");
@@ -102,6 +109,7 @@ public class SubscribeController {
         //return new ResponseEntity<>( "its working", HttpStatus.OK);
     }
 
+    @Operation(summary = "Display Subscription", description = "This method displays the subscribed plan of the loggedin user.")
     @GetMapping("/user/subscription")
     public ResponseEntity<Subscription> getSubscribedPlan(@RequestHeader("Authorization") String token){
         System.out.println("token is - " + token);
@@ -110,6 +118,7 @@ public class SubscribeController {
         return new ResponseEntity<>( subscription, HttpStatus.OK);
     }
 
+    @Operation(summary = "End Subscription", description = "This method ends the subscription for given user.")
     @PostMapping("/end/subscription")
     public ResponseEntity<String> endSubscribedPlan(@RequestBody Subscription subscription){
         System.out.println("subscription id - " + subscription.getSubscriptionId());
@@ -117,6 +126,7 @@ public class SubscribeController {
         //return new ResponseEntity<>( "subscription ended", HttpStatus.OK);
     }
 
+    @Operation(summary = "Display Bill", description = "This method displays the last bill of the user.")
     @GetMapping("/user/bill")
     public ResponseEntity<Billing> getUnpaidBill(@RequestHeader("Authorization") String token){
         //System.out.println("token is - " + token);

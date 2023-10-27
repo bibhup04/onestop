@@ -25,7 +25,6 @@ public class InvoiceService {
      * @return ResponseEntity<String>
      */
     public ResponseEntity<String> createInvoice(List<GenerateInvoiceDTO> generateInvoiceDTOList) {
-        System.out.println("inside create invoice service.");
         return invoiceServiceClient.generateInvoice(generateInvoiceDTOList);
     }
     

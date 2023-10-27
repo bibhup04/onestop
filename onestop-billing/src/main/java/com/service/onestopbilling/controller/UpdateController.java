@@ -7,18 +7,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.service.onestopbilling.dto.CollectionDTO;
-import com.service.onestopbilling.entity.Billing;
-import com.service.onestopbilling.entity.Subscription;
 import com.service.onestopbilling.service.BillingService;
 import com.service.onestopbilling.service.SubscriptionService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/subscribe")
+@Tag(name = "Update controller", description = "It updates the account and payment status.")
 public class UpdateController {
 
     @Autowired
@@ -32,6 +34,7 @@ public class UpdateController {
      * @param collectionDTO
      * @return ResponseEntity<String>
      */
+    @Operation(summary = "Update Payment Status", description = "This method recieves the details of user and update payment status to paid.")
     @PostMapping("/update/payment")
     public ResponseEntity<String> receiveCollectionDTO(@RequestBody CollectionDTO collectionDTO) {
 
@@ -49,6 +52,7 @@ public class UpdateController {
         }
     }
 
+     @Operation(summary = "Update Account Status", description = "This method get called periodically and account status from Active to Suspend, Terminate based on payment status.")
     @PostMapping("/update/status")
     public ResponseEntity<String> updateStatus(){
         List<Long> subscriptionId = billingService.findSubscriptionIdsByPaymentStatusPending();

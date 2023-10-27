@@ -20,8 +20,12 @@ import com.service.onestopcollection.service.CollectionService;
 import com.service.onestopcollection.service.OttStubService;
 import com.service.onestopcollection.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/collection")
+@Tag(name = "Collection controller", description = "It Collects amount after payment and updates payment status to paid, and suspend, terminate the account if the user doesnot make any payment till the end of collection cycle.")
 public class CollectionController {
 
     @Autowired
@@ -42,12 +46,14 @@ public class CollectionController {
      * @param token
      * @return ResponseEntity<UserDTO>
      */
+    @Operation(summary = "User Details", description = "Recieves user and plan details and add those details to Database.")
     @GetMapping("/user")
-    public ResponseEntity<UserDTO> createFamilyDetails(@RequestHeader("Authorization") String token){
+    public ResponseEntity<UserDTO> userDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);
         return new ResponseEntity<>( userDTO, HttpStatus.OK);
     }
 
+    @Operation(summary = "Recieve Collection", description = "Recieves Collection amount, billId and subscription id and send to billing microservice to update.")
     @PostMapping("/payment")
     public ResponseEntity<String> receiveCollectionDTO(@RequestHeader("Authorization") String token, @RequestBody CollectionDTO collectionDTO) {
 
@@ -58,6 +64,7 @@ public class CollectionController {
 
     }
 
+    @Operation(summary = "Update Account Status", description = "It is a test method to check whether account status is changing from active to suspend, suspent to terminat is bill is not paid.")
     @PostMapping("/update/status")
     public ResponseEntity<String> updateSubscriptionStatus(){
 

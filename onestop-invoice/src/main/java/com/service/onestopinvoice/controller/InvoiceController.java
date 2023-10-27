@@ -33,10 +33,13 @@ import com.service.onestopinvoice.service.InvoiceService;
 import com.service.onestopinvoice.service.PdfService;
 import com.service.onestopinvoice.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 
 @RestController
 @RequestMapping("/invoice")
+@Tag(name = "Invoice controller", description = "It creates invoice and sends invoice via mail to user.")
 public class InvoiceController {
 
     @Autowired
@@ -61,6 +64,7 @@ public class InvoiceController {
       * @return ResponseEntity<List<Invoice>>
       */
      @GetMapping("/get/invoice")
+    @Operation(summary = "User Details", description = "It is a test endpoint to test feing communication and recieve userdetails.")
     public ResponseEntity<List<Invoice>> createFamilyDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);
         List<Invoice> invoices = invoiceService.getAllInvoicesByUserId(userDTO.getId());
@@ -69,6 +73,7 @@ public class InvoiceController {
 
 
     @PostMapping("/generate-invoice")
+    @Operation(summary = "Generate Invoice", description = "It recieves billId, SubscriptionId and userID and again send userId to authService and recieve all the details and generate Invoice and send to user via mail.")
     public ResponseEntity<String> generateInvoice(@RequestBody List<GenerateInvoiceDTO> generateInvoiceDTOList) {
 
     List<InvoiceDTO> invoiceDTOs = appService.getInvoiceDetails(generateInvoiceDTOList);
@@ -96,6 +101,7 @@ public class InvoiceController {
 }
 
     @PostMapping("/create")
+    @Operation(summary = "Create Invoice", description = "It is a test endpoint to create invoice for given data.")
     public ResponseEntity<String> generateNewPDF(@RequestBody List<InvoiceDTO> invoiceDTOs){
 
         if (invoiceDTOs != null) {
@@ -123,6 +129,7 @@ public class InvoiceController {
         return new ResponseEntity<>( "Bill and Invoice Generated" , HttpStatus.OK);
     }
 
+    @Operation(summary = "Display PDF", description = "It recieves invoiceId and in return returns the invoice.")
     @PostMapping("/displayPdf")
     public ResponseEntity<InputStreamResource> displayPdf(@RequestBody InvoiceIdDTO invoiceIdDTO) throws IOException {
         Invoice invoice = invoiceService.getInvoiceById(invoiceIdDTO.getInvoiceId()).get();
