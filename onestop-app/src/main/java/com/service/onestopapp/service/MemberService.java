@@ -88,5 +88,10 @@ public class MemberService {
         List<Member> members = memberRepository.findByFamily(family);
         return members.size();
     }
+
+    public void deleteMembersByFamilyAndName(Family family, String name) {
+        List<Member> membersToDelete = memberRepository.findByFamilyAndName(family, name);
+        memberRepository.deleteAll(membersToDelete);
+    }
     
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.service.onestopapp.dto.GenerateInvoiceDTO;
 import com.service.onestopapp.dto.InvoiceDTO;
+import com.service.onestopapp.dto.NameAndPhone;
 import com.service.onestopapp.dto.NewMemberDTO;
 import com.service.onestopapp.dto.PlanDTO;
 import com.service.onestopapp.dto.PlanIdDTO;
@@ -142,6 +143,20 @@ public class AppController {
         memberService.addMember(family, newMemberDTO);
 
         return new ResponseEntity<>( "Family members added" + newMemberDTO.getMembers(), HttpStatus.OK);
+    }
+
+    @PostMapping("/delete/member")
+    public ResponseEntity<String> deleteFamilyMember(@RequestHeader("Authorization") String token, @RequestBody NameAndPhone nameAndPhone){
+        UserDTO userDTO = userService.getUserDetails(token);
+        ResponseEntity<Subscription> responseEntity  = subscribePlanService.getSubscriptionDetails(token);
+        Subscription subscription = responseEntity.getBody();
+        if(subscription != null){
+            return new ResponseEntity<>("You can not remove members while subscribed to a plan.", HttpStatus.BAD_REQUEST);
+        }
+        
+        Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
+        memberService.deleteMembersByFamilyAndName(family, nameAndPhone.getName());
+        return new ResponseEntity<>( "Family members deleted successfully", HttpStatus.OK);
     }
 
     @Operation(summary = "Display Members", description = "Identify the user from token and add members to the family account of the user.")
