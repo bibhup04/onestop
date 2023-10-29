@@ -37,3 +37,10 @@ feign:
           isolation:
             thread:
               timeoutInMilliseconds: 1000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

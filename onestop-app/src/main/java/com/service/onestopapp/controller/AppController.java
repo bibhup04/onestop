@@ -132,7 +132,7 @@ public class AppController {
         if(subscription != null){
           
           int MaxAcceptedMembers = planService.getMemberCountByPlanId(subscription.getPlanId());
-          if(MaxAcceptedMembers < newMembers + existingMembers){
+          if(MaxAcceptedMembers <= newMembers + existingMembers){
                 return new ResponseEntity<>("Adding a new member to your family account will surpass the plan's maximum limit", HttpStatus.BAD_REQUEST);
           }
 

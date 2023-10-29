@@ -85,8 +85,9 @@ public class InvoiceController {
 
             try {
                 emailSenderService.sendMailWithAttachment(invoiceDTOs.get(i).getEmailId(),
-                "Here is your invoice",
-                "Your monthly invoice", "" +
+                "Dear Customer,\n\nWe are pleased to provide you with your invoice for this month's Postpaid OTT subscription. Please ensure timely payment to avoid any inconvenience. If you have any questions or need further assistance, please feel free to reach out to us at any time.\n\n" + //
+                        "Thank you for choosing our services.\n\nWarm regards,\nOnestop",
+                "Your Monthly Postpaid OTT Subscription Invoice", "" +
                         pdfFilePath);
                 } catch (MessagingException e) {
                     
@@ -116,10 +117,8 @@ public class InvoiceController {
                 
                  try {
                     emailSenderService.sendMailWithAttachment("handsompikul04@gmail.com",
-                "Dear Customer,\\n\\n Please find attached your invoice for this month's Postpaid OTT subscription. Should you have any queries or require further assistance, please do not hesitate to contact us.\\n" + //
-                        "\\n" + //
-                        "Best regards,\\n" + //
-                        "Onestop",
+                        "Dear Customer,\n\nWe are pleased to provide you with your invoice for this month's Postpaid OTT subscription. Please ensure timely payment to avoid any inconvenience. If you have any questions or need further assistance, please feel free to reach out to us at any time.\n\n" + //
+                        "Thank you for choosing our services.\n\nWarm regards,\nOnestop",
                 "Your Monthly Postpaid OTT Subscription Invoice", "" +
                         pdfFilePath);
                 } catch (MessagingException e) {
