@@ -92,7 +92,7 @@ public class AppController {
             System.out.println("user name - " + userDTO.getName() + "plan Id - " + planIdDTO.getPlanId());
             Family family = familyService.getFamilyByUserId(userDTO.getId()).get();
             if (planService.getMemberCountByPlanId(planIdDTO.getPlanId()) < memberService.getMemberCountByFamilyId(family)) {
-                return new ResponseEntity<>("Number of members is greater than the members count of the plan", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("The number of members in your family account exceeds the plan's maximum limit", HttpStatus.BAD_REQUEST);
             }
             return subscribePlanService.subscribePlan(planIdDTO.getPlanId(), userDTO, family);
         } catch (FeignException.BadRequest ex) {
@@ -101,13 +101,13 @@ public class AppController {
     }
 
 
-    @Operation(summary = "Home Page", description = "This endpoint don't dont require authentication. It displays the homepage directly.")
+    @Operation(summary = "Home Page", description = "This endpoint don't dont require authentication. It displays the homepage directly")
     @GetMapping("/home")
     public List<PlanDTO> getPlans() {
         return planService.getAllPlansWithOtt();
     }
 
-    @Operation(summary = "User Details", description = "Fetch token from header, send token to Auth-service and get user details and creates a entry in family table if there is not netry in for that user.")
+    @Operation(summary = "User Details", description = "Fetch token from header, send token to Auth-service and get user details and creates a entry in family table if there is not netry in for that user")
     @GetMapping("/user")
     public ResponseEntity<UserDTO> createFamilyDetails(@RequestHeader("Authorization") String token){
         UserDTO userDTO = userService.getUserDetails(token);
@@ -116,7 +116,7 @@ public class AppController {
     }
 
 
-    @Operation(summary = "Add Members", description = "Identify the user from token and add members to the family account of the user.")
+    @Operation(summary = "Add Members", description = "Identify the user from token and add members to the family account of the user")
     @PostMapping("/addMember")
     public ResponseEntity<String> addFamilyMember(@RequestHeader("Authorization") String token,@RequestBody NewMemberDTO newMemberDTO){
 
@@ -133,11 +133,11 @@ public class AppController {
           
           int MaxAcceptedMembers = planService.getMemberCountByPlanId(subscription.getPlanId());
           if(MaxAcceptedMembers < newMembers + existingMembers){
-                return new ResponseEntity<>("Number of members is greater than the members count of the plan", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Adding a new member to your family account will surpass the plan's maximum limit", HttpStatus.BAD_REQUEST);
           }
 
         } else if(newMembers + existingMembers >6){
-            return new ResponseEntity<>("Number of members is greater than maximum limit", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You cannot add more members as you have reached the maximum limit for this account", HttpStatus.BAD_REQUEST);
         }
         
         memberService.addMember(family, newMemberDTO);
@@ -151,7 +151,7 @@ public class AppController {
         ResponseEntity<Subscription> responseEntity  = subscribePlanService.getSubscriptionDetails(token);
         Subscription subscription = responseEntity.getBody();
         if(subscription != null){
-            return new ResponseEntity<>("You can not remove members while subscribed to a plan.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Members cannot be removed while you are subscribed to a plan", HttpStatus.BAD_REQUEST);
         }
         
         Family family = familyService.getFamilyByUserId(userDTO.getId()).get();

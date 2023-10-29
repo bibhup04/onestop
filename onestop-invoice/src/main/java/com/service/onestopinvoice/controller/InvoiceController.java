@@ -114,15 +114,18 @@ public class InvoiceController {
                 
                 String pdfFilePath = pdfService.WriteInvoice(invoiceDTO,  generateInvoiceDTO);
                 
-                //  try {
-                //     emailSenderService.sendMailWithAttachment("handsompikul04@gmail.com",
-                // "Here is your invoice",
-                // "Your monthly invoice", "" +
-                //         pdfFilePath);
-                // } catch (MessagingException e) {
+                 try {
+                    emailSenderService.sendMailWithAttachment("handsompikul04@gmail.com",
+                "Dear Customer,\\n\\n Please find attached your invoice for this month's Postpaid OTT subscription. Should you have any queries or require further assistance, please do not hesitate to contact us.\\n" + //
+                        "\\n" + //
+                        "Best regards,\\n" + //
+                        "Onestop",
+                "Your Monthly Postpaid OTT Subscription Invoice", "" +
+                        pdfFilePath);
+                } catch (MessagingException e) {
                     
-                //     e.printStackTrace(); 
-                // }        
+                    e.printStackTrace(); 
+                }        
             }
         } else {
             System.out.println("InvoiceDTO list is null.");

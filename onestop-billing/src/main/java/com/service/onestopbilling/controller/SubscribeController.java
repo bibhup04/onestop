@@ -64,9 +64,9 @@ public class SubscribeController {
         boolean subscribed = subscriptionService.isSubscriptionPresentForUser(subscribeDTO.getUserId());
         Optional<Billing> billing = billingService.findBillByUserIdAndPaymentStatusPending(subscribeDTO.getUserId());
         if(billing.isPresent()){
-            return new ResponseEntity<>("Please pay the existing bills.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Kindly clear any pending payments before proceeding.", HttpStatus.BAD_REQUEST);
         }else if (subscribed) {
-            return new ResponseEntity<>("The user is already subscribed to a plan.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are currently enrolled in a subscription plan.", HttpStatus.BAD_REQUEST);
         } else {
             Date endDate = customDateHandler.getEndDate();
             subscriptionService.saveSubscription(endDate, subscribeDTO);
